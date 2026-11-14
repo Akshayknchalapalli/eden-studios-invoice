@@ -7,7 +7,7 @@ const inr=x=>'₹'+money(x);
 const round=x=>Math.round((x+Number.EPSILON)*100)/100;
 const DRAFT_KEY='eden-invoice-v1';
 const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
-function displayDate(value){if(!value)return '';const [y,m,d]=value.split('-');return `${d}/${m}/${y}`;}
+function displayDate(value){return value||'';}
 
 for(let i=1;i<=6;i++){
  const row=document.createElement('div');row.className='service-row';
@@ -60,9 +60,9 @@ async function makePdf(){
  const jpg=new Uint8Array(await (await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.96))).arrayBuffer());
  const enc=new TextEncoder(),chunks=[],offsets=[0];let length=0;const add=s=>{const b=typeof s==='string'?enc.encode(s):s;chunks.push(b);length+=b.length;};
  add('%PDF-1.4\n');function obj(id,body){offsets[id]=length;add(`${id} 0 obj\n${body}\nendobj\n`);}
- obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
+ obj(1,'<< /Type /Catalog /Pages 2 0 R >>');obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 841] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>');
  offsets[4]=length;add(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width 2382 /Height 3369 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpg.length} >>\nstream\n`);add(jpg);add('\nendstream\nendobj\n');
- const content='q\n595.28 0 0 841.89 0 0 cm\n/Im0 Do\nQ\n';obj(5,`<< /Length ${enc.encode(content).length} >>\nstream\n${content}endstream`);
+ const content='q\n595 0 0 841 0 0 cm\n/Im0 Do\nQ\n';obj(5,`<< /Length ${enc.encode(content).length} >>\nstream\n${content}endstream`);
  const start=length;add('xref\n0 6\n0000000000 65535 f \n');for(let i=1;i<=5;i++)add(`${String(offsets[i]).padStart(10,'0')} 00000 n \n`);add(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${start}\n%%EOF`);
  return new File(chunks,`Eden-Invoice-${($('f_invoice').value||'draft').replace(/[^a-zA-Z0-9_-]/g,'-')}.pdf`,{type:'application/pdf'});
 }
@@ -79,5 +79,5 @@ $('shareBtn').onclick=async()=>{if(!readyToExport())return;try{
  }catch(error){$('exportStatus').textContent=error.name==='AbortError'?'Sharing cancelled. Your draft is still saved.':'Could not share the PDF. Use Download PDF instead.';}finally{$('shareBtn').disabled=false;}};
 $('printBtn').onclick=()=>{if(readyToExport())window.print();};
 
-const invoiceResources=Promise.all([$('templateImage').decode(),document.fonts.load('12px InvoiceSans'),document.fonts.load('700 12px InvoiceSans')]);
+const invoiceResources=Promise.all([$('templateImage').decode(),document.fonts.load('12px InvoiceSans'),document.fonts.load('600 12px InvoiceSans'),document.fonts.load('900 12px InvoiceSans')]);
 invoiceResources.then(()=>{sync();invalidatePdf();}).catch(()=>{$('exportStatus').textContent='Brand artwork or font could not load. Reopen the complete HTML file.';});

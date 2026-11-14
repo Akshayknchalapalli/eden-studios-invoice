@@ -38,3 +38,13 @@ Test on a physical iPhone in Safari: keyboard, focus zoom, safe-area padding, PD
 - Standalone bundle parsed successfully with no external asset links; inline JavaScript passed syntax checking.
 - Reopened the rebuilt editable HTML: all sample values, selections and ₹18,290 total restored; exactly six input rows.
 - At a 390px embedded mobile viewport: no horizontal body overflow, clear bottom actions, and preview zoom updated to 1.5×. Physical iPhone validation remains outstanding.
+
+## Current: strict reference matching
+
+The previous fresh-typesetting design is superseded by the user's requirement to replicate the supplied PDF as-is.
+
+- Confirmed the template JPEG is byte-for-byte identical to the PDF image stream (SHA-256 5894823bed605e48fdcf74f8a74d9307ab9fc3d5513ef6d0b7fb771d7799ee11).
+- Measured text coordinates, baselines and font sizes from the PDF. Embedded full Latin Roboto regular/semibold/black subsets; checked regular glyph advances against the PDF's embedded RobotoStatic font.
+- Reused the original selected-checkmark vector outline. Preserved YYYY-MM-DD dates, original columns and borders.
+- Filled the exact supplied sample details and all six service rows. Generated a 595 × 841 point one-page PDF and rendered it at the same size as the reference. Visually verified the matching header, service fields, checks, table values, totals, notes and footer.
+- Subtotal ₹16,000, discount ₹500, GST ₹2,790, grand total ₹18,290.
