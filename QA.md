@@ -26,3 +26,15 @@ Test on a physical iPhone in Safari: keyboard, focus zoom, safe-area padding, PD
 - Tested the exact single-file build through the local browser preview: entered values and checkmarks appear, calculated ₹5,310, generated a valid one-page A4 PDF, and downloaded an editable HTML invoice.
 - Reopened the downloaded HTML through the test preview: invoice number, customer, service selection, amounts and total restored; exactly six service rows appeared.
 - Direct file-URL testing is unavailable in the cloud browser. Physical iPhone local-file execution and its viewer-specific download behavior remain unverified.
+
+## Rebuilt invoice preview (current template)
+
+- Replaced the full-page image and positioned field overlays with a single typeset renderer.
+- Embedded Noto Sans regular/bold WOFF subsets and included font license. No font requests or other network calls are needed by the standalone file.
+- Rendered original studio identity, address, contacts, eight service checkboxes, four payment checkboxes, reference, all customer/bill fields, six service rows, notes, totals, six terms, payment terms and signature.
+- Replayed the reference's six service rows: ₹16,000 subtotal, ₹500 discount, 18% GST ₹2,790, grand total ₹18,290.
+- Generated and rendered the final one-page A4 PDF with Poppler; visually checked typography, amounts, all sections, wrapping and spacing. Export uses the exact preview canvas at 2382 × 3369 pixels. PDF text remains rasterized.
+- Long notes display a named overflow warning; descriptions can wrap to two lines with controlled fitting.
+- Standalone bundle parsed successfully with no external asset links; inline JavaScript passed syntax checking.
+- Reopened the rebuilt editable HTML: all sample values, selections and ₹18,290 total restored; exactly six input rows.
+- At a 390px embedded mobile viewport: no horizontal body overflow, clear bottom actions, and preview zoom updated to 1.5×. Physical iPhone validation remains outstanding.

@@ -4,15 +4,16 @@ import base64,re
 root=Path(__file__).resolve().parents[1]
 dist=root/'dist'
 html=(dist/'index.html').read_text()
-css=(dist/'styles.css').read_text()
-js=(dist/'app.js').read_text()
+css=(dist/'invoice-fonts.css').read_text()+'\n'+(dist/'styles.css').read_text()
+js=(dist/'invoice-renderer.js').read_text()+'\n'+(dist/'app.js').read_text()
+html=html.replace('<link rel="stylesheet" href="invoice-fonts.css">','')
 html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>')
-html=html.replace('<script src="app.js" defer></script>','')
+html=html.replace('<script src="app.js" defer></script>','').replace('<script src="invoice-renderer.js" defer></script>','')
 html=html.replace('src="invoice-template.jpg"','src="data:image/jpeg;base64,'+base64.b64encode((dist/'invoice-template.jpg').read_bytes()).decode()+'"')
 html=html.replace('<title>Eden Studios • Invoice maker</title>','<title>Eden Studios • Offline invoice</title>')
-html=html.replace('<meta name="theme-color"', '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data: blob:; connect-src \'none\'; font-src \'none\'; object-src \'none\'; base-uri \'none\'; form-action \'none\'"><meta name="theme-color"')
+html=html.replace('<meta name="theme-color"', '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data: blob:; connect-src \'none\'; font-src data:; object-src \'none\'; base-uri \'none\'; form-action \'none\'"><meta name="theme-color"')
 html=html.replace('Made for your mobile','Works offline • Single file')
-html=html.replace('Fill in the details. Your original invoice updates instantly below.','No internet or sign-in needed. Fill in the details and save your invoice as a PDF.')
+html=html.replace('Fill in the details. Your professionally typeset invoice updates instantly below.','No internet or sign-in needed. Fill in the details and save your invoice as a PDF.')
 html=html.replace('<button id="printBtn"','<button id="saveCopyBtn" class="light">Save editable copy</button><button id="printBtn"')
 html=html.replace('Your draft stays in this browser on this device.','Use Save editable copy to keep a filled HTML invoice you can reopen offline. Browser draft saving depends on your HTML viewer.')
 html=html.replace('<p class="small">iPhone: open the PDF, then use Share → Save to Files. For printing, select A4 paper.</p>','<p class="small">iPhone: this file must be opened in an HTML browser/viewer that runs JavaScript. Files and WhatsApp previews may show a read-only preview. If buttons do not respond, open the file in a compatible HTML viewer. No internet is needed once the file is saved.</p><p class="small">Save PDF creates the final bill. Save editable copy includes all entered details so you can edit it later. For printing, select A4 paper.</p>')
@@ -28,7 +29,7 @@ $('saveCopyBtn').onclick=()=>{
  const copy=document.documentElement.cloneNode(true);
  // Dynamic rows must be regenerated once, when this saved copy opens.
  copy.querySelector('#serviceRows').innerHTML='';
- copy.querySelector('#previewRows').innerHTML='';
+ copy.querySelector('#invoiceCanvas').removeAttribute('style');
  const old=copy.querySelector('#invoiceSnapshot');if(old)old.remove();
  const state={version:1,values:inputs.map(el=>({id:el.id,value:el.value,checked:el.checked}))};
  const data=document.createElement('script');data.type='application/json';data.id='invoiceSnapshot';data.textContent=JSON.stringify(state).replace(/</g,'\\u003c');

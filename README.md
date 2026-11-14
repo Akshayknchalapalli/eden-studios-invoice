@@ -1,6 +1,6 @@
 # Eden Studios Invoice
 
-A mobile-first invoice editor that populates the supplied Eden Studios artwork as you type. Buildless HTML, CSS and JavaScript; no external libraries or customer-data APIs.
+A mobile-first offline invoice maker with a freshly typeset Eden Studios template. All labels, entered values, lines, checks and totals are rendered together using embedded regular and bold Noto Sans fonts; only the logo uses the original supplied artwork. Buildless HTML, CSS and JavaScript; no external libraries or customer-data APIs.
 
 ## Offline single-file version
 
@@ -33,7 +33,7 @@ Open `http://localhost:8080`. Serve the directory over HTTPS for native mobile s
 
 - Live mappings for invoice number, dates, customer, phone, address, eight service selections, four payment modes, reference, six invoice rows, notes, terms and signature.
 - Subtotal, fixed discount, percentage tax and grand total; currency rounding per row and at tax calculation.
-- Read-only preview using the original artwork, with Fit and 1.5×–3× zoom.
+- Freshly typeset A4 preview with consistent fonts, wrapped descriptions, aligned amounts, navy/gold branding, original studio details, six terms, notes, signature and Fit/1.5×–3× zoom. The PDF uses the same rendered page as the preview.
 - Draft restoration from browser localStorage on the same device and origin. No cloud synchronization; private browsing or cleared site data may remove the draft.
 - Direct one-page A4 PDF download, iOS file-sharing preparation, and print fallback.
 - Validation blocks PDF export for incomplete line items, negative/invalid numbers, excessive discount and text that cannot fit the artwork.
@@ -45,7 +45,7 @@ For offline use, save the root HTML file and open it in a compatible HTML viewer
 
 ## Limits
 
-The original artwork has exactly six service rows. Long values shrink within their boxes; values that still do not fit are highlighted and must be shortened before export. The exported PDF preserves the artwork as an image and is not a searchable text PDF. Authorized signature is a typed name, not a handwritten or cryptographic signature. Studio contact details and printed terms are part of the supplied artwork. Drafts are local to the browser, and contain customer data entered by the user.
+The A4 layout provides six service rows. Text wraps and fits within its section; fields that still do not fit are named in a warning and must be shortened before PDF export. The exported PDF preserves the artwork as an image and is not a searchable text PDF. Authorized signature is a typed name, not a handwritten or cryptographic signature. Studio contact details and the original six terms are recreated as template text in `dist/invoice-renderer.js`. The logo is drawn from the supplied artwork. Embedded Noto Sans fonts are licensed under SIL OFL; see `FONT-LICENSE.txt`. Drafts are local to the browser, and contain customer data entered by the user.
 
 ## Verification
 
