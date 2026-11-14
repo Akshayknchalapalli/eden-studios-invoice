@@ -15,6 +15,7 @@ for(let i=1;i<=6;i++){
  $('serviceRows').append(row);
 
 }
+buildInvoiceDOM();
 const inputs=[...document.querySelectorAll('#editor input:not([readonly]),#editor textarea,#editor select')];
 let currentInvoice=null;
 function sync(){
@@ -27,7 +28,7 @@ function sync(){
  const discount=Math.min(subtotal,number('f_discount')),taxRate=number('f_taxrate'),tax=round((subtotal-discount)*taxRate/100),grand=round(subtotal-discount+tax);
  currentInvoice={rows,subtotal,discount,taxRate,tax,grand,payment:$('f_payment').value,checks:Object.fromEntries([...document.querySelectorAll('[data-check]')].map(c=>[c.dataset.check,c.checked]))};
  fields.forEach(key=>currentInvoice[key]=['date','due'].includes(key)?displayDate($('f_'+key).value):$('f_'+key).value);
- const overflow=drawInvoice($('invoiceCanvas'),currentInvoice,$('templateImage'));
+ const overflow=updateInvoiceDOM($('invoicePaper'),currentInvoice);
  $('sum_sub').value=inr(subtotal);$('sum_tax').value=inr(tax);$('sum_grand').value=inr(grand);$('mobileTotal').textContent=inr(grand);
  const problems=[];
  if(overflow.length)problems.push('Shorten these fields to fit the A4 layout: '+[...new Set(overflow)].join(', ')+'.');
@@ -37,7 +38,7 @@ function sync(){
  if(Array.from({length:6},(_,i)=>i+1).some(i=>($('qty'+i).value||$('rate'+i).value||$('desc'+i).value)&&(!$('desc'+i).value.trim()||!$('qty'+i).value||!$('rate'+i).value)))problems.push('Complete description, quantity and rate for each used service row.');
  $('fitWarning').textContent=problems.join(' ');$('fitWarning').hidden=!problems.length;
  $('previewAccessible').textContent=JSON.stringify(currentInvoice);
- $('invoiceCanvas').setAttribute('aria-label',`Invoice ${currentInvoice.invoice||'draft'} for ${currentInvoice.customer||'customer'}. Total ${inr(grand)}.`);
+ $('invoicePaper').setAttribute('aria-label',`Invoice ${currentInvoice.invoice||'draft'} for ${currentInvoice.customer||'customer'}. Total ${inr(grand)}.`);
  return !problems.length;
 }
 let saveTimer;
@@ -53,10 +54,10 @@ new ResizeObserver(resizePreview).observe($('previewWrap'));
 $('zoomIn').onclick=()=>{zoom=Math.min(3,zoom+.5);resizePreview();};$('zoomOut').onclick=()=>{zoom=Math.max(1,zoom-.5);resizePreview();};$('fitBtn').onclick=()=>{zoom=1;resizePreview();};
 $('clearBtn').onclick=()=>{if(!confirm('Start a new invoice? Download the current PDF first. This clears the draft on this device.'))return;clearTimeout(saveTimer);inputs.forEach(el=>{el.value='';if(el.type==='checkbox')el.checked=false;});$('f_date').value=today();$('f_discount').value='0';$('f_taxrate').value='0';zoom=1;cachedPdf=null;$('shareBtn').textContent='Share PDF';resizePreview();sync();saveDraft();$('exportStatus').textContent='';window.scrollTo({top:0,behavior:'smooth'});};
 function readyToExport(){if(!sync()){$('exportStatus').textContent=$('fitWarning').textContent;$('previewCard').scrollIntoView({behavior:'smooth'});return false;}return true;}
-// Standalone, dependency-free PDF: render the same image and fitted preview text.
+// Render the live HTML element boxes and text to an export-only canvas. No invoice background image is used.
 async function makePdf(){
  await invoiceResources;if(!sync())throw new Error('Invoice content does not fit');
- const canvas=$('invoiceCanvas');
+ const canvas=await invoiceDOMToCanvas($('invoicePaper'));
  const jpg=new Uint8Array(await (await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.96))).arrayBuffer());
  const enc=new TextEncoder(),chunks=[],offsets=[0];let length=0;const add=s=>{const b=typeof s==='string'?enc.encode(s):s;chunks.push(b);length+=b.length;};
  add('%PDF-1.4\n');function obj(id,body){offsets[id]=length;add(`${id} 0 obj\n${body}\nendobj\n`);}
@@ -79,5 +80,5 @@ $('shareBtn').onclick=async()=>{if(!readyToExport())return;try{
  }catch(error){$('exportStatus').textContent=error.name==='AbortError'?'Sharing cancelled. Your draft is still saved.':'Could not share the PDF. Use Download PDF instead.';}finally{$('shareBtn').disabled=false;}};
 $('printBtn').onclick=()=>{if(readyToExport())window.print();};
 
-const invoiceResources=Promise.all([$('templateImage').decode(),document.fonts.load('12px InvoiceSans'),document.fonts.load('600 12px InvoiceSans'),document.fonts.load('900 12px InvoiceSans')]);
+const invoiceResources=Promise.all([$('brandLogo').decode(),document.fonts.load('12px InvoiceSans'),document.fonts.load('600 12px InvoiceSans'),document.fonts.load('700 12px InvoiceSans'),document.fonts.load('900 12px InvoiceSans')]);
 invoiceResources.then(()=>{sync();invalidatePdf();}).catch(()=>{$('exportStatus').textContent='Brand artwork or font could not load. Reopen the complete HTML file.';});

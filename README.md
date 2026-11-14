@@ -1,37 +1,35 @@
-# Eden Studios Offline Invoice
+# Eden Studios Offline HTML Invoice
 
-The root `index.html` is a standalone offline invoice maker. Download it and optionally rename it `Eden_Studios_Offline.html`. The supplied reference PDF defines the invoice appearance: the original full-height header and branding, contact details, address, bordered customer and bill fields, service/payment checkboxes, six-row service table, notes, totals, six printed terms, payment terms and signature.
+The root `index.html` is the complete standalone offline app. The invoice preview is **real HTML/CSS**: an `<article>` with a header, definition lists, customer fields, a semantic service table, notes, totals, terms and footer. All static and entered text is selectable. The only image is the cropped Eden logo (`dist/eden-logo.png`, 420 × 411). There is no full-page invoice background image and no on-screen preview canvas.
 
-## Use offline
+## Offline use
 
-1. Save the HTML file on your device.
-2. Open it in a browser or local HTML viewer that runs JavaScript.
-3. Enter the details; the preview fills the matching reference fields.
-4. Download PDF for the final bill, or Save editable copy to keep an HTML invoice containing all entered values.
+Download `index.html`, rename it if desired, and open it in a browser or local HTML viewer that runs JavaScript. All fonts, logo artwork, styles and scripts are embedded. No server, login, CDN or network calls are required. You can share the HTML as a WhatsApp document.
 
-All artwork, scripts and fonts are embedded. No server, sign-in, CDN or network requests are required. You can send the blank HTML as a WhatsApp document. On iPhones, Files/WhatsApp may show a read-only HTML preview; use a compatible HTML viewer if the controls do not respond. Physical iPhone local-file execution and downloads remain unverified.
+Fill the form to update the HTML invoice. Download PDF generates a one-page A4 invoice from the **live HTML elements and text**. Save editable copy downloads an HTML invoice containing your entered values and selections. Print invoice uses the native HTML print layout, which can produce searchable PDF text when the browser supports saving to PDF.
 
-## Template fidelity
+On iPhones, Files/WhatsApp may show a read-only preview. A compatible HTML viewer is needed if interactive controls or downloads are unavailable. Physical iPhone local-file execution and native sharing have not been verified.
 
-- The background is the exact original JPEG embedded in the supplied PDF, including all labels, borders, icons and printed terms.
-- Dynamic values use the reference PDF's measured coordinates, font sizes, baselines and column alignment.
-- Embedded Roboto weights 400, 600 and 900 match the regular values, payment reference and bold grand total. Dates use YYYY-MM-DD, as in the reference.
-- Selected checkmarks reuse the reference checkmark outline. The preview and downloaded PDF use one renderer.
-- The exported page matches the reference's 595 × 841 point A4 dimensions. PDF contents are rasterized.
-- This is a reference-matching layout, so the original small text sizes and six-row limit are intentional. Values that exceed their available field space produce a warning and block PDF export.
+## Layout
 
-Drafts are saved in localStorage where the viewer supports it. Saved editable copies embed the entered values and restore them independently of draft storage. Copies containing real customer information should be treated as customer records. Authorized signature is a typed name, not a cryptographic signature.
+The tall navy/gold header, studio contact details, customer fields, service/payment checkboxes, six-row service table, notes, bordered totals, six terms and signature/footer follow the supplied reference design. The page is rebuilt in HTML rather than placed over a raster copy. See `dist/invoice-layout.css` for layout and typography, and the `invoicePaper` article in `dist/index.html` for markup.
 
-## Develop
+Amounts and totals calculate automatically. Draft storage uses localStorage where supported; editable HTML copies restore their embedded state independently of storage. Long values are fitted within their fields, and content that still overflows is reported before PDF export. The template has six service rows. Signature is a typed name.
+
+## PDF implementation
+
+`dist/invoice-renderer.js` updates DOM text nodes and table cells. Its export function reads those DOM element boxes, borders, SVG icons, logo and text-line positions, and paints a temporary export-only canvas. It does not draw an invoice-template image or keep a second hand-positioned invoice layout. The direct downloaded PDF is rasterized; use native print-to-PDF when selectable PDF text is required. Fonts are embedded Roboto subsets; see `FONT-LICENSE.txt`.
+
+## Development
 
 ```sh
 python3 -m http.server 8080 --directory dist
 ```
 
-Edit `dist/invoice-renderer.js` for field placement, `dist/app.js` for form/calculation/export behavior and `dist/index.html` / `dist/styles.css` for the editor. Rebuild the standalone file with:
+Rebuild the single-file artifact:
 
 ```sh
 python3 scripts/build_offline.py
 ```
 
-Font license: `FONT-LICENSE.txt`. Verification: `QA.md`.
+Verification notes are in `QA.md`.

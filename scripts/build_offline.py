@@ -4,13 +4,13 @@ import base64,re
 root=Path(__file__).resolve().parents[1]
 dist=root/'dist'
 html=(dist/'index.html').read_text()
-css=(dist/'invoice-fonts.css').read_text()+'\n'+(dist/'styles.css').read_text()
+css=(dist/'invoice-fonts.css').read_text()+'\n'+(dist/'styles.css').read_text()+'\n'+(dist/'invoice-layout.css').read_text()
 js=(dist/'invoice-renderer.js').read_text()+'\n'+(dist/'app.js').read_text()
-html=html.replace('<link rel="stylesheet" href="invoice-fonts.css">','')
+html=html.replace('<link rel="stylesheet" href="invoice-fonts.css">','').replace('<link rel="stylesheet" href="invoice-layout.css">','')
 html=html.replace('<link rel="stylesheet" href="styles.css">','<style>'+css+'</style>')
 html=html.replace('<script src="app.js" defer></script>','').replace('<script src="invoice-renderer.js" defer></script>','')
-html=html.replace('src="invoice-template.jpg"','src="data:image/jpeg;base64,'+base64.b64encode((dist/'invoice-template.jpg').read_bytes()).decode()+'"')
-html=html.replace('<title>Eden Studios • Invoice maker</title>','<title>Eden Studios • Offline invoice</title>')
+html=html.replace('src="eden-logo.png"','src="data:image/png;base64,'+base64.b64encode((dist/'eden-logo.png').read_bytes()).decode()+'"')
+html=html.replace('<title>Eden Studios • Invoice maker</title>','<title>Eden Studios • Offline HTML invoice</title>')
 html=html.replace('<meta name="theme-color"', '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; script-src \'unsafe-inline\'; style-src \'unsafe-inline\'; img-src data: blob:; connect-src \'none\'; font-src data:; object-src \'none\'; base-uri \'none\'; form-action \'none\'"><meta name="theme-color"')
 html=html.replace('Made for your mobile','Works offline • Single file')
 html=html.replace('Fill in the details. Your invoice updates instantly in the original reference layout below.','No internet or sign-in needed. Fill in the details and save your invoice as a PDF.')
@@ -29,7 +29,9 @@ $('saveCopyBtn').onclick=()=>{
  const copy=document.documentElement.cloneNode(true);
  // Dynamic rows must be regenerated once, when this saved copy opens.
  copy.querySelector('#serviceRows').innerHTML='';
- copy.querySelector('#invoiceCanvas').removeAttribute('style');
+ copy.querySelector('#invoiceTableBody').innerHTML='';
+ copy.querySelector('#invoiceServiceChoices').innerHTML='';
+ copy.querySelector('#invoicePaymentChoices').innerHTML='';
  const old=copy.querySelector('#invoiceSnapshot');if(old)old.remove();
  const state={version:1,values:inputs.map(el=>({id:el.id,value:el.value,checked:el.checked}))};
  const data=document.createElement('script');data.type='application/json';data.id='invoiceSnapshot';data.textContent=JSON.stringify(state).replace(/</g,'\\u003c');
