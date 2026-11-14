@@ -2,7 +2,7 @@
 // The preview is native HTML. Canvas is created only when exporting a PDF.
 const INVOICE_WIDTH=794,INVOICE_HEIGHT=1123,INVOICE_SCALE=3;
 function buildInvoiceDOM(){
- const services=[['music','Music composition'],['arrange','Track arrangements'],['record','Recording / pitch correction'],['mix','Mixing & mastering'],['voice','Voice-over / dubbing'],['score','Background score'],['live','Live instruments'],['plugins','Audio plugins / MIDI installation']];
+ const services=[['music','Music composition'],['arrange','Track arrangements'],['record','Recording / pitch correction'],['mix','Mixing & mastering'],['voice','Voice-over / dubbing'],['score','Background score'],['live','Live instruments'],['plugins','Audio plugins / MIDI installation'],['score_sfx','Background Score SFX'],['voice_artist','Voice Dub / Voice over Artist']];
  const choice=(key,label,attribute)=>{const el=document.createElement('div');el.className='invoice-choice';const mark=document.createElement('span');mark.className='invoice-checkbox';mark.setAttribute(attribute,key);mark.setAttribute('aria-hidden','true');const name=document.createElement('span');name.textContent=label;el.append(mark,name);return el;};
  services.forEach(([key,label])=>document.getElementById('invoiceServiceChoices').append(choice(key,label,'data-invoice-check')));
  ['Cash','UPI','Card','Bank transfer'].forEach(mode=>document.getElementById('invoicePaymentChoices').append(choice(mode,mode,'data-invoice-payment')));
@@ -17,8 +17,8 @@ function updateInvoiceDOM(root,data){
  root.querySelectorAll('[data-total]').forEach(el=>el.textContent=money(data[el.dataset.total]));
  const issues=[];
  root.querySelectorAll('[data-field],[data-row],[data-total]').forEach(el=>{
-  const base=el.dataset.total==='grand'?10.65:el.dataset.row!==undefined?7.35:7;let size=base;el.style.fontSize=size+'px';
-  while(size>6&&(el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1)){size-=.25;el.style.fontSize=size+'px';}
+  const base=parseFloat(getComputedStyle(el).getPropertyValue('--invoice-value-size'))||12;let size=base;el.style.fontSize=size+'px';
+  while(size>11&&(el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1)){size-=.25;el.style.fontSize=size+'px';}
   const overflow=el.textContent&&(el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1);
   el.setAttribute('data-overflow',overflow?'true':'false');
   if(overflow)issues.push(el.dataset.field||el.dataset.total||`Service ${Number(el.dataset.row)+1} ${el.dataset.column}`);

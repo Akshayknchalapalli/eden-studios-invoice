@@ -26,3 +26,14 @@
 ## Limits
 
 The reference design is recreated in HTML/CSS; it is not a pixel-identical raster reproduction. Direct PDF download is rasterized from the DOM, while native browser printing can preserve text. Physical iPhone Safari/local-file behavior and native share-sheet operation remain unverified. Local HTML requires a viewer that executes JavaScript and supports downloads.
+
+## Added services and larger populated text
+
+- Added two independent service keys (`score_sfx`, `voice_artist`) without removing existing service selections: ten form checkboxes and ten native HTML preview checkboxes.
+- Selected both new options; both preview marks became ✓. Sample values had zero overflow warnings.
+- Read computed font sizes: customer 12 px, description 12 px, subtotal 12.5 px, grand total 17.5 px. The old populated text was mostly 7–7.35 px.
+- Increased field/cell heights, widened footer payment terms, added a third checklist row, and spaced the sections to retain one-page A4 output. Text fitting stops at 11 px.
+- Generated and rendered the updated PDF; visually checked all ten service options, larger customer details, quantities/prices/amounts, totals, notes and footer.
+- Reopened saved HTML: both new form checkboxes and preview ticks restored as selected; grand total remained ₹18,290.
+- Mobile 390px viewport: both new checks update in preview, no horizontal body overflow and no fit warnings for the sample.
+- Oversized customer value stops at 11 px and shows an overflow warning instead of silently shrinking further.

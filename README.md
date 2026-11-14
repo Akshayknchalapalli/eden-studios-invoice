@@ -33,3 +33,9 @@ python3 scripts/build_offline.py
 ```
 
 Verification notes are in `QA.md`.
+
+## Services and readable populated values
+
+The service checklist has ten options, including the additional **Background Score SFX** and **Voice Dub / Voice over Artist** checkboxes. All ten appear in the form, live HTML invoice and downloaded PDF, and their selection is preserved in saved drafts/editable copies.
+
+Populated customer details and line items use 12 px text at the native A4 layout size, metadata/notes/reference use 11.5 px, totals use 12.5 px and grand total uses 17.5 px. Text fitting has an 11 px minimum; values that still do not fit are reported instead of becoming tiny. The checklist has three rows and the remaining invoice sections are spaced to keep the result on one A4 page.
