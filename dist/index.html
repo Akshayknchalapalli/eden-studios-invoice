@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#061a38"><meta name="apple-mobile-web-app-capable" content="yes"><title>Eden Studios • Invoice maker</title><meta name="description" content="Create an Eden Studios invoice on your phone, preview every change and save a PDF."><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script></head>
+<body><header><div class="brand"><span class="brand-mark">E</span><div><h1>Eden Studios</h1><p>INVOICE WORKSPACE</p></div></div><span class="badge">Made for your mobile</span></header>
+<main><section class="intro screen-only"><p class="eyebrow">LESS ADMIN. MORE MUSIC.</p><h2>Your next session,<br>beautifully billed.</h2><p>Fill in the details. Your original invoice updates instantly below.</p><div class="draft-line"><span class="status-dot"></span><span id="draftStatus" role="status">Ready for a new invoice</span></div></section>
+<div class="workspace"><div id="editor"><section class="card screen-only editor-card">
+<h2>Step 1 — Bill details</h2>
+<p class="note">Tap each box and type. You do not need to edit the picture itself.</p>
+<div class="grid">
+<div><label for="f_invoice">Invoice number</label><input id="f_invoice" placeholder="Example: EDS-001" autocomplete="off"></div>
+<div><label for="f_date">Invoice date</label><input id="f_date" type="date"></div>
+<div><label for="f_due">Due date</label><input id="f_due" type="date"></div>
+<div><label for="f_customer">Customer / artist name</label><input id="f_customer" placeholder="Enter customer name" autocomplete="name"></div>
+<div><label for="f_phone">Customer phone</label><input id="f_phone" type="tel" placeholder="Enter phone number" autocomplete="tel"></div>
+<div><label for="f_address">Address / company</label><input id="f_address" placeholder="Enter address or company"></div>
+</div>
+</section>
+
+<section class="card screen-only editor-card">
+<h2>Step 2 — Choose services</h2>
+<p class="note">Tick only the services you are charging for.</p>
+<div class="check-grid" id="serviceChecks">
+<label class="check"><input id="service_music" type="checkbox" data-check="music">Music composition</label>
+<label class="check"><input id="service_arrange" type="checkbox" data-check="arrange">Track arrangements</label>
+<label class="check"><input id="service_record" type="checkbox" data-check="record">Recording / pitch correction</label>
+<label class="check"><input id="service_mix" type="checkbox" data-check="mix">Mixing & mastering</label>
+<label class="check"><input id="service_voice" type="checkbox" data-check="voice">Voice-over / dubbing</label>
+<label class="check"><input id="service_score" type="checkbox" data-check="score">Background score</label>
+<label class="check"><input id="service_live" type="checkbox" data-check="live">Live instruments</label>
+<label class="check"><input id="service_plugins" type="checkbox" data-check="plugins">Audio plugins / MIDI installation</label>
+</div>
+<label for="f_payment">Payment mode</label>
+<select id="f_payment"><option value="">Choose payment mode</option><option>Cash</option><option>UPI</option><option>Card</option><option>Bank transfer</option></select>
+<label for="f_reference">Reference / UPI ID (optional)</label><input id="f_reference" placeholder="Transaction ID or UPI ID">
+</section>
+
+<section class="card screen-only editor-card">
+<h2>Step 3 — Add service and price</h2>
+<p class="note">For each service, enter description, quantity and price. Amounts and totals calculate automatically. Six rows fit your original invoice. Leave unused rows empty.</p>
+<div id="serviceRows"></div>
+<div class="grid">
+<div><label for="f_discount">Discount (₹)</label><input inputmode="decimal" id="f_discount" type="number" min="0" step="0.01" value="0"></div>
+<div><label for="f_taxrate">GST / tax rate (%)</label><input inputmode="decimal" id="f_taxrate" type="number" min="0" step="0.01" value="0"></div>
+</div>
+<div class="grid">
+<div><label for="f_notes">Project notes / deliverables</label><textarea id="f_notes" placeholder="Song title, deliverables, etc."></textarea></div>
+<div><label for="f_terms">Payment terms</label><textarea id="f_terms" placeholder="Example: 50% advance, balance on delivery"></textarea></div>
+</div>
+<label for="f_signature">Authorized signature / name</label><input id="f_signature" placeholder="Enter name">
+</section>
+
+<section class="card screen-only editor-card">
+<h2>Step 4 — Check total</h2>
+<div class="grid">
+<div><label for="sum_sub">Subtotal</label><input id="sum_sub" readonly value="₹0.00"></div>
+<div><label for="sum_tax">Tax amount</label><input id="sum_tax" readonly value="₹0.00"></div>
+<div><label for="sum_grand">Grand total</label><input id="sum_grand" readonly value="₹0.00" style="font-weight:bold;border-color:#061a38;border-width:2px"></div>
+</div>
+</section>
+
+<section class="card screen-only"><h2>Ready to send?</h2><p class="note">Download a PDF, or share it directly from supported iPhones. Your draft stays in this browser on this device.</p><div class="actions"><button id="downloadBtn">Download PDF</button><button id="shareBtn" class="light">Share PDF</button><button id="printBtn" class="light">Print invoice</button><button id="clearBtn" class="light">New invoice</button></div><p class="small">iPhone: open the PDF, then use Share → Save to Files. For printing, select A4 paper.</p><p id="exportStatus" class="small" role="status"></p></section></div>
+<section class="card" id="previewCard"><div class="preview-heading screen-only"><div><p class="eyebrow">YOUR ORIGINAL DESIGN</p><h2>Live invoice preview</h2></div><span class="live-tag">● Live</span></div><p class="note screen-only">Every field above appears here. Zoom in to inspect the details.</p><div class="preview-tools screen-only"><button id="zoomOut" class="light" aria-label="Zoom out">−</button><output id="zoomLabel">Fit</output><button id="zoomIn" class="light" aria-label="Zoom in">+</button><button id="fitBtn" class="light">Fit page</button><a href="#editor">Edit details ↑</a></div><p id="fitWarning" class="warning screen-only" role="status" hidden></p><div class="preview-wrap" id="previewWrap"><div id="previewStage"><div class="preview" id="preview" role="img" aria-label="Live Eden Studios invoice"><img id="templateImage" src="invoice-template.jpg" alt="" width="1097" height="1536"><div class="ov" id="p_invoice" style="left:80.55%;top:31.15%;width:11.75%;height:1.70%"></div>
+<div class="ov" id="p_date" style="left:80.55%;top:33.25%;width:11.75%;height:1.70%"></div>
+<div class="ov" id="p_due" style="left:80.55%;top:35.35%;width:11.75%;height:1.70%"></div>
+<div class="ov" id="p_customer" style="left:14.20%;top:40.10%;width:35.95%;height:1.42%"></div>
+<div class="ov" id="p_phone" style="left:60.45%;top:40.10%;width:28.20%;height:1.42%"></div>
+<div class="ov" id="p_address" style="left:23.20%;top:41.90%;width:65.45%;height:1.42%"></div>
+<!-- service check marks -->
+<div class="ovcheck" data-pcheck="music" style="left:7.8095%;top:45.5224%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="arrange" style="left:29.4286%;top:45.5224%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="record" style="left:52.7619%;top:45.5224%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="mix" style="left:74.3810%;top:45.5224%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="voice" style="left:7.8095%;top:47.1506%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="score" style="left:29.4286%;top:47.1506%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="live" style="left:52.7619%;top:47.1506%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pcheck="plugins" style="left:74.3810%;top:47.1506%;width:1.45%;height:1.02%"></div>
+<!-- payment mode checkmarks -->
+<div class="ovcheck" data-pmode="Cash" style="left:22.4762%;top:49.5251%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pmode="UPI" style="left:32.7619%;top:49.5251%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pmode="Card" style="left:42.0000%;top:49.5251%;width:1.45%;height:1.02%"></div>
+<div class="ovcheck" data-pmode="Bank transfer" style="left:51.9048%;top:49.5251%;width:1.45%;height:1.02%"></div>
+<div class="ov" id="p_reference" style="left:71.8%;top:50.65%;width:20.2%;height:1.55%;font-weight:600;line-height:1.05"></div>
+<div id="previewRows"></div>
+<div class="ov" id="p_notes" style="left:7.5%;top:70.45%;width:42%;height:2.9%;resize:none;overflow:hidden"></div>
+<div class="ov" id="p_subtotal" style="left:71.8%;top:68.55%;width:20.8%;height:1.5%;text-align:right;box-sizing:border-box;padding-right:3px"></div>
+<div class="ov" id="p_discount" style="left:71.8%;top:70.35%;width:20.8%;height:1.5%;text-align:right;box-sizing:border-box;padding-right:3px"></div>
+<div class="ov" id="p_tax" style="left:71.8%;top:72.15%;width:20.8%;height:1.5%;text-align:right;box-sizing:border-box;padding-right:3px"></div>
+<div class="ov" id="p_grand" style="left:71.8%;top:74.35%;width:20.8%;height:1.35%;text-align:right;box-sizing:border-box;font-weight:900;line-height:1.0;padding-right:3px"></div>
+<div class="ov" id="p_terms" style="left:18.3%;top:92.8%;width:27.6%;height:1.45%"></div>
+<div class="ov" id="p_signature" style="left:22.5%;top:95.0%;width:22.5%;height:1.8%"></div>
+</div></div></div><p class="small screen-only">Same Eden Studios artwork. All entered details and totals are added to the blank boxes.</p></section></div></main><nav class="mobile-bar screen-only" aria-label="Invoice actions"><div><span>Invoice total</span><strong id="mobileTotal">₹0.00</strong></div><a href="#previewCard">Preview ↓</a><button id="mobileDownload">Save PDF</button></nav></body></html>
