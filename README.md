@@ -1,6 +1,6 @@
 # Eden Studios Offline HTML Invoice
 
-The root `index.html` is the complete standalone offline app. The invoice preview is **real HTML/CSS**: an `<article>` with a header, definition lists, customer fields, a semantic service table, notes, totals, terms and footer. All static and entered text is selectable. The only image is the cropped Eden logo (`dist/eden-logo.png`, 420 × 411). There is no full-page invoice background image and no on-screen preview canvas.
+The root `index.html` is the complete standalone offline app. The invoice preview is **real HTML/CSS**: an `<article>` with a header, definition lists, customer fields, a semantic service table, notes, totals, terms and footer. All static and entered text is selectable. The only image is the Eden artwork supplied as a PDF, converted to `dist/eden-logo.png` (960 × 540). There is no full-page invoice background image and no on-screen preview canvas.
 
 ## Offline use
 
@@ -75,3 +75,7 @@ node scripts/test_sync.cjs
 ## Preview workspace
 
 With no services checked, the preview shows “No services selected” and PDF/print actions are disabled. Selecting a service reveals the invoice; removing the last service restores the empty state. On desktop screens wider than 900 px and at least 600 px tall, the workspace fills the viewport, only the form scrolls, and the preview fits the complete A4 page within both the available width and height. Zoom controls are hidden in that desktop mode to prevent a cropped or scrolling preview. Smaller screens retain the mobile page layout.
+
+## Invoice logo
+
+The top-left header block uses the supplied landscape Eden Studios artwork, rendered from the provided PDF at its native 960 × 540 resolution. It replaces the previous square promotional poster. The display box keeps the artwork's 16:9 aspect ratio; invoice/contact details remain on the right.
