@@ -1,3 +1,9 @@
+# Logo asset cache refresh — 2026-11-15
+
+- Confirmed main contains the landscape logo change and Vercel reports a completed deployment.
+- Changed the live image URL to eden-logo-landscape.png and versioned invoice-layout.css. The earlier filename remains available for compatibility; the current page requests the new asset identity and CSS URL.
+- Rebuilt the standalone offline HTML with the same new artwork embedded. Old downloaded HTML files and immutable older deployment URLs cannot be changed by this update.
+
 # Updated top-left logo artwork — 2026-11-15
 
 - Rendered the supplied one-page Eden Studios PDF to a 960 × 540 PNG and replaced the old square promotional image.

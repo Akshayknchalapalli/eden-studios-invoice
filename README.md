@@ -1,6 +1,6 @@
 # Eden Studios Offline HTML Invoice
 
-The root `index.html` is the complete standalone offline app. The invoice preview is **real HTML/CSS**: an `<article>` with a header, definition lists, customer fields, a semantic service table, notes, totals, terms and footer. All static and entered text is selectable. The only image is the Eden artwork supplied as a PDF, converted to `dist/eden-logo.png` (960 × 540). There is no full-page invoice background image and no on-screen preview canvas.
+The root `index.html` is the complete standalone offline app. The invoice preview is **real HTML/CSS**: an `<article>` with a header, definition lists, customer fields, a semantic service table, notes, totals, terms and footer. All static and entered text is selectable. The only image is the Eden artwork supplied as a PDF, converted to `dist/eden-logo-landscape.png` (960 × 540). There is no full-page invoice background image and no on-screen preview canvas.
 
 ## Offline use
 
