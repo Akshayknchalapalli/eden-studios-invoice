@@ -5,3 +5,44 @@
 @media print{@page{size:A4 portrait;margin:0}html,body{background:white!important;margin:0!important;padding:0!important;width:210mm;height:297mm}body>header,.screen-only,#editor{display:none!important}main,.workspace{display:block!important;margin:0!important;padding:0!important;max-width:none!important;width:210mm!important}#previewCard{border:0!important;box-shadow:none!important;margin:0!important;padding:0!important;border-radius:0!important}.preview-wrap{padding:0!important;border:0!important;margin:0!important;overflow:visible!important}#previewStage{width:210mm!important;height:297mm!important}.preview{transform:scale(.99962,.99958)!important;transform-origin:top left!important;overflow:hidden!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Plain HTML avoids iPhone foreignObject scaling/clipping failures.
+   The small initial scale also keeps a complete page visible before scripts run. */
+#previewStage{width:238.2px;height:336.9px;position:relative}
+#preview{display:block;width:794px;height:1123px;transform:scale(.3);-webkit-transform:scale(.3);transform-origin:0 0;-webkit-transform-origin:0 0}
+#invoicePaper{-webkit-text-size-adjust:none;text-size-adjust:none}
+#invoicePaper .invoice-checkbox svg{display:block;width:100%;height:100%}
+@media(max-width:350px){#previewStage{width:198.5px;height:280.75px}#preview{transform:scale(.25);-webkit-transform:scale(.25)}}
+
+.service-empty{padding:18px;border:1px dashed var(--line);border-radius:10px;color:var(--muted);font-size:14px}
+#serviceCount:empty{display:none}
+#editor .service-row>strong{font-size:14px;color:var(--ink)}
+
+.preview-empty{min-height:300px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#f7f9fc;border:1px dashed #cbd5e1;border-radius:12px;padding:32px;color:var(--muted)}
+.preview-empty-symbol{font-size:30px;line-height:1;width:58px;height:58px;display:grid;place-items:center;border-radius:50%;background:#edf1f6;color:var(--ink);margin-bottom:16px}
+.preview-empty h3{font-size:18px;margin:0 0 8px;color:var(--ink)}
+.preview-empty p{font-size:14px;max-width:300px;margin:0;line-height:1.6}
+@media screen and (min-width:901px) and (min-height:600px){
+ html,body{height:100%;overflow:hidden}
+ body{display:flex;flex-direction:column;min-height:0}
+ body>header{flex:none;padding:12px 24px}
+ main{flex:1;min-height:0;width:100%;max-width:1600px;display:flex;flex-direction:column;padding:16px 24px;margin:0 auto}
+ .intro{flex:none;margin:0 0 14px}
+ .intro .eyebrow{display:none}
+ .intro h2{font-size:24px;line-height:1.2;letter-spacing:-.7px;margin:0 0 4px}
+ .intro h2 br{display:none}
+ .intro>p:not(.eyebrow){font-size:13px;margin:0 0 6px}
+ .workspace{flex:1;min-height:0;align-items:stretch}
+ #editor{min-height:0;height:100%;overflow-y:auto;overflow-x:hidden;padding-right:8px;scrollbar-gutter:stable;overscroll-behavior-y:contain}
+ #editor>.card:last-child{margin-bottom:0}
+ #previewCard{height:100%;min-height:0;display:flex;flex-direction:column;margin:0;padding:16px;overflow:hidden}
+ #previewCard>.screen-only{flex-shrink:0}
+ #previewCard .preview-heading h2{margin-bottom:6px}
+ #previewCard>.note{font-size:12px;margin-bottom:4px}
+ #previewCard>.small{font-size:11px;margin-top:8px}
+ #previewCard .preview-tools{margin:6px 0 10px}
+ #zoomIn,#zoomOut,#zoomLabel{display:none}
+ #previewWrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+ #previewStage{flex:none}
+ #previewEmpty{min-height:0}
+}
