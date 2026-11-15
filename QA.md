@@ -1,3 +1,9 @@
+# Updated top-left logo artwork — 2026-11-15
+
+- Rendered the supplied one-page Eden Studios PDF to a 960 × 540 PNG and replaced the old square promotional image.
+- The header displays the complete landscape artwork in a 330 × 185.625 native-pixel box, preserving 16:9 proportions. The box is contained in the left header region without overlapping the invoice/contact details.
+- Inspected the PDF render. Rebuilt the standalone file and proportional static-preview stylesheet. Existing calculation, row-mapping, selection and fit checks pass. Full browser/PDF-export layout verification remains pending.
+
 # Empty preview and desktop form-only scrolling — 2026-11-15
 
 - Added a no-services preview empty state and hid the invoice/tools/live badge until a service is selected. Removing the last selection restores the empty state. Empty invoices cannot be exported or printed.
