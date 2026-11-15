@@ -1,3 +1,9 @@
+# Empty preview and desktop form-only scrolling — 2026-11-15
+
+- Added a no-services preview empty state and hid the invoice/tools/live badge until a service is selected. Removing the last selection restores the empty state. Empty invoices cannot be exported or printed.
+- Desktop layout uses a bounded viewport with independent form scrolling and a fixed preview panel. Page fitting now takes the smaller width/height ratio. Desktop zoom controls are hidden; mobile interaction and print layout remain separate.
+- Unit checks pass for the empty/selected transitions, disabled export actions and three desktop width/height combinations (including zoom attempts), plus the existing calculation, service row and static-preview checks. Browser assertions for full-page containment and form-only scrolling were added; visual verification remains pending.
+
 # Selected-service lines and calculation update — 2026-11-15
 
 - Step 3 and the native invoice now contain only the services checked in Step 2 (0–10 lines). Each service retains its own description, quantity and rate across deselection/reselection. No selection gives zero rows and a clear empty state.

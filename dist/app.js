@@ -46,6 +46,12 @@ function readServiceChecks(){
 }
 function sync(){
  const selected=selectedServiceLines();
+ const hasServices=selected.length>0;
+ $('previewEmpty').hidden=hasServices;
+ $('previewWrap').hidden=!hasServices;
+ $('previewTools').hidden=!hasServices;
+ $('previewLive').hidden=!hasServices;
+ ['downloadBtn','mobileDownload','shareBtn','printBtn'].forEach(id=>{$(id).disabled=!hasServices;});
  const amounts=calculateInvoiceAmounts(selected,$('f_discount').value,$('f_taxrate').value);
  const rows=selected.map((line,index)=>{
   const amount=amounts.rows[index].amount;
@@ -64,7 +70,8 @@ function sync(){
  $('fitWarning').textContent=problems.join(' ');$('fitWarning').hidden=!problems.length;
  $('previewAccessible').textContent=JSON.stringify(currentInvoice);
  $('invoicePaper').setAttribute('aria-label',`Invoice ${currentInvoice.invoice||'draft'} for ${currentInvoice.customer||'customer'}. Total ${inr(grand)}.`);
- return !problems.length;
+ if(hasServices&&typeof window.fitInvoicePreview==='function')window.fitInvoicePreview();
+ return hasServices&&!problems.length;
 }
 let saveTimer;
 function saveDraft(){try{localStorage.setItem(DRAFT_KEY,JSON.stringify({version:2,values:inputs.map(el=>({id:el.id,value:el.value,checked:el.checked}))}));$('draftStatus').textContent='Draft saved on this device';}catch(error){$('draftStatus').textContent='Draft not saved — download your PDF before leaving';}}
@@ -96,7 +103,7 @@ function resizePreview(){
 resizePreview();
 $('zoomIn').onclick=()=>{zoom=Math.min(3,zoom+.5);resizePreview();};$('zoomOut').onclick=()=>{zoom=Math.max(1,zoom-.5);resizePreview();};$('fitBtn').onclick=()=>{zoom=1;resizePreview();};
 $('clearBtn').onclick=()=>{if(!confirm('Start a new invoice? Download the current PDF first. This clears the draft on this device.'))return;clearTimeout(saveTimer);inputs.forEach(el=>{el.value='';if(el.type==='checkbox')el.checked=false;});serviceDefinitions.forEach((service,index)=>{$('desc'+(index+1)).value='';$('qty'+(index+1)).value='1';});$('f_date').value=today();$('f_discount').value='0';$('f_taxrate').value='0';zoom=1;cachedPdf=null;$('shareBtn').textContent='Share PDF';resizePreview();sync();saveDraft();$('exportStatus').textContent='';window.scrollTo({top:0,behavior:'smooth'});};
-function readyToExport(){if(!sync()){$('exportStatus').textContent=$('fitWarning').textContent;$('previewCard').scrollIntoView({behavior:'smooth'});return false;}return true;}
+function readyToExport(){if(!sync()){$('exportStatus').textContent=currentInvoice.rows.length?$('fitWarning').textContent:'Select at least one service in Step 2 to preview or export an invoice.';$('previewCard').scrollIntoView({behavior:'smooth'});return false;}return true;}
 // Render the live HTML element boxes and text to an export-only canvas. No invoice background image is used.
 async function makePdf(){
  await invoiceResources;if(!sync())throw new Error('Invoice content does not fit');

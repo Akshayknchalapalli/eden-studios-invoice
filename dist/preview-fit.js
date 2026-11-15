@@ -11,7 +11,13 @@
   var style=window.getComputedStyle(wrap);
   var available=wrap.clientWidth-(parseFloat(style.paddingLeft)||0)-(parseFloat(style.paddingRight)||0);
   if(available<=0)return;
+  var desktop=window.matchMedia&&window.matchMedia('(min-width:901px) and (min-height:600px)').matches;
   var scale=available/794*currentZoom;
+  if(desktop){
+   var availableHeight=wrap.clientHeight-(parseFloat(style.paddingTop)||0)-(parseFloat(style.paddingBottom)||0);
+   if(availableHeight<=0)return;
+   scale=Math.min(available/794,availableHeight/1123);
+  }
   preview.style.transform='scale('+scale+')';
   preview.style.webkitTransform='scale('+scale+')';
   stage.style.width=(794*scale)+'px';

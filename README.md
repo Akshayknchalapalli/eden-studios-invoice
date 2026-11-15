@@ -71,3 +71,7 @@ node scripts/test_invoice_math.cjs
 node scripts/test_invoice_rows.cjs
 node scripts/test_sync.cjs
 ```
+
+## Preview workspace
+
+With no services checked, the preview shows “No services selected” and PDF/print actions are disabled. Selecting a service reveals the invoice; removing the last service restores the empty state. On desktop screens wider than 900 px and at least 600 px tall, the workspace fills the viewport, only the form scrolls, and the preview fits the complete A4 page within both the available width and height. Zoom controls are hidden in that desktop mode to prevent a cropped or scrolling preview. Smaller screens retain the mobile page layout.

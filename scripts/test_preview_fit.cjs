@@ -11,3 +11,12 @@ for(const available of [198,240,280,310,350,600]){
 }
 for(const name of ['dist/index.html','index.html']){const html=fs.readFileSync(path.join(__dirname,'..',name),'utf8');assert.ok(!/<foreignObject\b/i.test(html));assert.ok(html.includes('<div class="preview" id="preview">'));assert.ok(html.includes('fitInvoicePreview')||html.includes('preview-fit.js'));}
 console.log('PASS: complete A4 fit, stage height, zoom, WebKit transform and resize without ResizeObserver at six widths; no foreignObject wrapper.');
+
+for(const [width,height] of [[600,400],[350,650],[900,300]]){
+ const wrap={clientWidth:width+8,clientHeight:height+8},stage={style:{}},preview={style:{}};
+ const window={getComputedStyle:()=>({paddingLeft:'4px',paddingRight:'4px',paddingTop:'4px',paddingBottom:'4px'}),addEventListener(){},matchMedia:()=>({matches:true})};
+ const document={getElementById:id=>({previewWrap:wrap,previewStage:stage,preview})[id]};
+ vm.runInNewContext(source,{window,document,parseFloat});
+ for(const zoom of [1,2,3]){window.fitInvoicePreview(zoom);assert.ok(parseFloat(stage.style.width)<=width+.001);assert.ok(parseFloat(stage.style.height)<=height+.001);assert.ok(Math.abs(parseFloat(stage.style.height)/parseFloat(stage.style.width)-1123/794)<.001);}
+}
+console.log('PASS: desktop preview stays within both width and height, including attempts to zoom.');
