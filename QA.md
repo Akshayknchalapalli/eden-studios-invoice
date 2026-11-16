@@ -1,3 +1,9 @@
+# Logo delivery and workspace branding — 2026-11-16
+
+- Replaced the separate workspace E mark with the supplied official artwork as well as the invoice logo. Both images are embedded in the hosted HTML, eliminating separate logo image requests.
+- Added a hosted Download offline HTML link and a generated `dist/Eden-Studios-Invoice.html` route. That downloadable file is byte-identical to the current root standalone app, avoiding reliance on an earlier manually saved file.
+- Added a delivery regression check verifying every marked image matches the supplied artwork and both downloadable files agree. Existing logic and layout-unit checks continue to pass. Full production visual verification remains pending.
+
 # Logo asset cache refresh — 2026-11-15
 
 - Confirmed main contains the landscape logo change and Vercel reports a completed deployment.

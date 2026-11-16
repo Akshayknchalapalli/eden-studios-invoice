@@ -79,3 +79,7 @@ With no services checked, the preview shows “No services selected” and PDF/p
 ## Invoice logo
 
 The top-left header block uses the supplied landscape Eden Studios artwork, rendered from the provided PDF at its native 960 × 540 resolution. It replaces the previous square promotional poster. The display box keeps the artwork's 16:9 aspect ratio; invoice/contact details remain on the right.
+
+## Current offline download
+
+The hosted page's **Download offline HTML** link serves `dist/Eden-Studios-Invoice.html`, rebuilt together with the root offline file. Both files are identical and self-contained. The workspace header and invoice preview both use the supplied official landscape artwork, embedded directly in the live page and offline HTML to avoid separate image-cache requests. Rebuild after changing artwork; the generator refreshes every `data-studio-artwork` image.
