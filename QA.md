@@ -1,3 +1,10 @@
+# Blue headers and larger transparent SVG — 2026-11-16
+
+- Restored blue header surfaces for the workspace and invoice. Duplicate studio/workspace text remains removed.
+- Added a genuine SVG traced from the supplied original logo, with vector paths for the coloured wordmark and white lettering. No bitmap image, photographic background or foreignObject is embedded.
+- Enlarged the visible mark through tight viewBox bounds and larger display boxes. Rendered and visually inspected the SVG against the actual blue header colour.
+- Updated hosted/offline embedding and delivery checks to use the SVG. Existing selection, calculation and fit unit checks pass. Full browser layout and PDF export visual checks remain pending.
+
 # Logo-only header and matching backdrop — 2026-11-16
 
 - Removed the duplicate Eden Studios / Invoice Workspace text beside the header logo.

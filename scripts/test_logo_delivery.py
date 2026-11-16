@@ -16,13 +16,16 @@ class Images(HTMLParser):
 
 class LogoDeliveryTests(unittest.TestCase):
     def test_all_rendered_logos_match_supplied_artwork(self):
-        artwork=(ROOT/'dist/eden-logo-landscape.png').read_bytes()
+        artwork=(ROOT/'dist/eden-logo.svg').read_bytes()
+        self.assertIn(b'<path',artwork)
+        self.assertNotIn(b'<image',artwork)
+        self.assertNotIn(b'foreignObject',artwork)
         for name in ['dist/index.html','index.html','dist/Eden-Studios-Invoice.html']:
             html=(ROOT/name).read_text()
             parser=Images();parser.feed(html)
             self.assertEqual(len(parser.images),2,name)
             for image in parser.images:
-                self.assertTrue(image.startswith('data:image/png;base64,'))
+                self.assertTrue(image.startswith('data:image/svg+xml;base64,'))
                 self.assertEqual(base64.b64decode(image.split(',',1)[1]),artwork)
             self.assertNotIn('<span class="brand-mark">E</span>',html)
             self.assertNotIn('<h1>Eden Studios</h1>',html)

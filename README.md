@@ -85,3 +85,7 @@ The top-left header block uses the supplied landscape Eden Studios artwork, rend
 The hosted page's **Download offline HTML** link serves `dist/Eden-Studios-Invoice.html`, rebuilt together with the root offline file. Both files are identical and self-contained. The workspace header and invoice preview both use the supplied official landscape artwork, embedded directly in the live page and offline HTML to avoid separate image-cache requests. Rebuild after changing artwork; the generator refreshes every `data-studio-artwork` image.
 
 The workspace header displays only the supplied logo, without a repeated studio title or workspace subtitle. Page and invoice header backgrounds use black to match the artwork's existing dark backdrop.
+
+## Transparent SVG logo
+
+`dist/eden-logo.svg` is a genuine vector trace of the supplied artwork's coloured logo and lettering. It contains paths and a tagline shape, without embedded bitmap imagery, photography or a background rectangle. Both the workspace and invoice embed this SVG. The original blue (#061a38) headers are restored, the duplicate title remains removed, and tighter logo bounds make the visible wordmark larger. The original PDF render remains as the tracing reference. `scripts/trace_logo.py` documents the trace and uses Pillow/NumPy only when regenerating the asset.
