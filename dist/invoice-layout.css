@@ -22,3 +22,5 @@
 #invoicePaper .invoice-table{height:auto}
 #invoicePaper .invoice-table.is-compact td{height:16px;padding:0}
 #invoicePaper .invoice-table.is-compact .invoice-cell-value{height:15px;font-size:11px;line-height:13px;padding:0 3px;--invoice-value-size:11px}
+
+#invoicePaper .invoice-header{background:#000}

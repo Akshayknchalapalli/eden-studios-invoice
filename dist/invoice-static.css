@@ -36,4 +36,6 @@
 #invoicePaper .invoice-table.is-compact td{height:calc(var(--invoice-unit) * 16);padding:0}
 #invoicePaper .invoice-table.is-compact .invoice-cell-value{height:calc(var(--invoice-unit) * 15);font-size:calc(var(--invoice-unit) * 11)!important;line-height:calc(var(--invoice-unit) * 13);padding:0 calc(var(--invoice-unit) * 3);--invoice-value-size:calc(var(--invoice-unit) * 11)}
 
+#invoicePaper .invoice-header{background:#000}
+
 }

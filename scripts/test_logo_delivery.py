@@ -25,6 +25,8 @@ class LogoDeliveryTests(unittest.TestCase):
                 self.assertTrue(image.startswith('data:image/png;base64,'))
                 self.assertEqual(base64.b64decode(image.split(',',1)[1]),artwork)
             self.assertNotIn('<span class="brand-mark">E</span>',html)
+            self.assertNotIn('<h1>Eden Studios</h1>',html)
+            self.assertNotIn('<p>INVOICE WORKSPACE</p>',html)
     def test_live_download_serves_current_offline_app(self):
         self.assertEqual((ROOT/'index.html').read_bytes(),(ROOT/'dist/Eden-Studios-Invoice.html').read_bytes())
         self.assertIn('href="Eden-Studios-Invoice.html" download=',(ROOT/'dist/index.html').read_text())

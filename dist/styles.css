@@ -50,3 +50,8 @@
 .workspace-logo{display:block;width:128px;height:72px;object-fit:contain;flex:none;border-radius:6px}
 .offline-download{font-size:12px;font-weight:600;text-decoration:none;background:#f2b51c;color:#061a38;padding:10px 14px;border-radius:8px;white-space:nowrap}
 @media(max-width:520px){.workspace-logo{width:86px;height:48.375px}.brand{gap:10px}.brand h1{font-size:17px}.offline-download{font-size:11px;padding:8px;white-space:normal;max-width:105px;margin-left:12px;text-align:center}}
+
+/* The supplied artwork has a black backdrop; use that same header surface. */
+body>header{background:#000}
+.workspace-logo{width:170px;height:95.625px;border-radius:0;background:#000}
+@media(max-width:520px){.workspace-logo{width:120px;height:67.5px}}

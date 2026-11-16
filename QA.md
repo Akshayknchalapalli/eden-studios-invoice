@@ -1,3 +1,9 @@
+# Logo-only header and matching backdrop — 2026-11-16
+
+- Removed the duplicate Eden Studios / Invoice Workspace text beside the header logo.
+- Kept the original supplied artwork. Page and invoice header surfaces now use black, matching the artwork's dark backdrop instead of the previous navy contrast. Increased the header logo size for legibility.
+- Delivery tests verify duplicate title/subtitle markup is absent from the live page and both offline downloads. Existing synchronization, calculation and page-fit tests pass. Full browser visual verification remains pending.
+
 # Logo delivery and workspace branding — 2026-11-16
 
 - Replaced the separate workspace E mark with the supplied official artwork as well as the invoice logo. Both images are embedded in the hosted HTML, eliminating separate logo image requests.

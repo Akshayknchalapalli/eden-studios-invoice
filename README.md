@@ -83,3 +83,5 @@ The top-left header block uses the supplied landscape Eden Studios artwork, rend
 ## Current offline download
 
 The hosted page's **Download offline HTML** link serves `dist/Eden-Studios-Invoice.html`, rebuilt together with the root offline file. Both files are identical and self-contained. The workspace header and invoice preview both use the supplied official landscape artwork, embedded directly in the live page and offline HTML to avoid separate image-cache requests. Rebuild after changing artwork; the generator refreshes every `data-studio-artwork` image.
+
+The workspace header displays only the supplied logo, without a repeated studio title or workspace subtitle. Page and invoice header backgrounds use black to match the artwork's existing dark backdrop.
