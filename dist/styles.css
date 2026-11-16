@@ -53,5 +53,5 @@
 
 /* Transparent SVG wordmark on the original blue header. */
 body>header{background:var(--navy)}
-.workspace-logo{width:180px;height:127.742px;border-radius:0;background:transparent}
-@media(max-width:520px){.workspace-logo{width:130px;height:92.258px}}
+.workspace-logo{width:132px;height:93.677px;border-radius:0;background:transparent}
+@media(max-width:520px){.workspace-logo{width:100px;height:70.968px}}
