@@ -38,4 +38,17 @@
 
 #invoicePaper .invoice-header{background:var(--invoice-navy)}
 
+/* Four checklist rows; extend the table upward only for 11–13 selected lines. */
+#invoicePaper .invoice-check-grid{row-gap:calc(var(--invoice-unit) * 2)}
+#invoicePaper.has-many-services .invoice-header{height:calc(var(--invoice-unit) * 281)}
+#invoicePaper.has-many-services .invoice-logo{top:calc(var(--invoice-unit) * 23)}
+#invoicePaper.has-many-services .invoice-contact-row{height:calc(var(--invoice-unit) * 22)}
+#invoicePaper.has-many-services .invoice-studio-address{top:calc(var(--invoice-unit) * 305)}
+#invoicePaper.has-many-services .invoice-metadata{top:calc(var(--invoice-unit) * 300)}
+#invoicePaper.has-many-services .invoice-customer{top:calc(var(--invoice-unit) * 375)}
+#invoicePaper.has-many-services .invoice-services{top:calc(var(--invoice-unit) * 454)}
+#invoicePaper.has-many-services .invoice-payment{top:calc(var(--invoice-unit) * 533)}
+#invoicePaper.has-many-services .invoice-reference{top:calc(var(--invoice-unit) * 531)}
+#invoicePaper.has-many-services .invoice-table{top:calc(var(--invoice-unit) * 576)}
+
 }

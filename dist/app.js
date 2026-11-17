@@ -17,7 +17,10 @@ const serviceDefinitions=[
  ['live','Live instruments','e.g. Acoustic guitar recording'],
  ['plugins','Audio plugins / MIDI installation','e.g. MIDI setup and plugin installation'],
  ['score_sfx','Background Score SFX','e.g. Sound design and effects'],
- ['voice_artist','Voice Dub / Voice over Artist','e.g. Voice artist session']
+ ['voice_artist','Voice Dub / Voice over Artist','e.g. Voice artist session'],
+ ['short_film_score', 'Short Film Background Score', 'e.g. Original score for a short film'],
+ ['sound_sfx', 'Sound SFX', 'e.g. Sound effects design and editing'],
+ ['foley_recording', 'Foley Recording', 'e.g. Footsteps and prop Foley recording']
 ];
 serviceDefinitions.forEach((service,index)=>{
  const i=index+1,row=document.createElement('div');row.className='service-row';row.id='serviceLine'+i;row.hidden=true;

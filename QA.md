@@ -1,3 +1,9 @@
+# Film score, Sound SFX and Foley — 2026-11-17
+
+- Added three independent service keys for Short Film Background Score, Sound SFX and Foley Recording; pricing inputs and preview checks use the same keys.
+- Expanded the static checklist and invoice table to thirteen services. Four checklist rows fit above payment details; eleven to thirteen selected lines use a compact header/upper section layout to retain 11 px line values within A4.
+- Selection tests exercise each new option, rate entry, preview description, deselection and all-thirteen selection. Invoice row mapping, calculation, logo delivery, static layout and fit checks pass. Physical browser/PDF-export layout verification remains pending.
+
 # Blue headers and larger transparent SVG — 2026-11-16
 
 - Restored blue header surfaces for the workspace and invoice. Duplicate studio/workspace text remains removed.

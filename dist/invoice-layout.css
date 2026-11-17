@@ -24,3 +24,16 @@
 #invoicePaper .invoice-table.is-compact .invoice-cell-value{height:15px;font-size:11px;line-height:13px;padding:0 3px;--invoice-value-size:11px}
 
 #invoicePaper .invoice-header{background:var(--invoice-navy)}
+
+/* Four checklist rows; extend the table upward only for 11–13 selected lines. */
+#invoicePaper .invoice-check-grid{row-gap:2px}
+#invoicePaper.has-many-services .invoice-header{height:281px}
+#invoicePaper.has-many-services .invoice-logo{top:23px}
+#invoicePaper.has-many-services .invoice-contact-row{height:22px}
+#invoicePaper.has-many-services .invoice-studio-address{top:305px}
+#invoicePaper.has-many-services .invoice-metadata{top:300px}
+#invoicePaper.has-many-services .invoice-customer{top:375px}
+#invoicePaper.has-many-services .invoice-services{top:454px}
+#invoicePaper.has-many-services .invoice-payment{top:533px}
+#invoicePaper.has-many-services .invoice-reference{top:531px}
+#invoicePaper.has-many-services .invoice-table{top:576px}

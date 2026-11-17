@@ -6,6 +6,7 @@ function setInvoiceCheck(el,checked){
  if(checked)mark.removeAttribute('hidden');else mark.setAttribute('hidden','');
 }
 function updateInvoiceDOM(root,data){
+ root.classList.toggle('has-many-services',data.rows.length>10);
  root.querySelectorAll('[data-field]').forEach(el=>el.textContent=data[el.dataset.field]||'');
  root.querySelectorAll('[data-invoice-check]').forEach(el=>setInvoiceCheck(el,!!data.checks[el.dataset.invoiceCheck]));
  root.querySelectorAll('[data-invoice-payment]').forEach(el=>setInvoiceCheck(el,data.payment===el.dataset.invoicePayment));

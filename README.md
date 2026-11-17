@@ -89,3 +89,7 @@ The workspace header displays only the supplied logo, without a repeated studio 
 ## Transparent SVG logo
 
 `dist/eden-logo.svg` is a genuine vector trace of the supplied artwork's coloured logo and lettering. It contains paths and a tagline shape, without embedded bitmap imagery, photography or a background rectangle. Both the workspace and invoice embed this SVG. The original blue (#061a38) headers are restored, the duplicate title remains removed, and tighter logo bounds make the visible wordmark larger. The original PDF render remains as the tracing reference. `scripts/trace_logo.py` documents the trace and uses Pillow/NumPy only when regenerating the asset.
+
+## Film, SFX and Foley services
+
+Added **Short Film Background Score**, **Sound SFX**, and **Foley Recording** as three independent options. Each has a service-specific pricing description hint, quantity/rate fields, preview checkbox and invoice line. Existing selections and pricing remain associated with their original service keys. The checklist and invoice support all thirteen services; selecting eleven or more uses a compact upper-header layout to provide table space while preserving the notes, totals, terms and footer positions.

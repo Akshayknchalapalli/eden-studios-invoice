@@ -9,4 +9,5 @@ for(const [q,r] of [['0','100'],['-1','100'],['1','-1'],['','100'],['1',''],['1.
 for(const [d,t] of [['101','18'],['-1','18'],['0','101'],['0','-1'],['1.234','18'],['0','18.001']]){result=calc([line('1','100')],d,t);assert.ok(result.errors.length);assert.ok(Number.isFinite(result.grand));assert.ok(result.grand>=0);}
 result=calc([line('1','100')],'100','18');assert.equal(result.grand,0);assert.equal(result.tax,0);
 result=calc(Array.from({length:10},()=>line('1','100')),'100','18');assert.equal(result.grand,1062);assert.equal(result.rows.length,10);
+result=calc(Array.from({length:13},()=>line('1','100')),'100','18');assert.equal(result.grand,1416);assert.equal(result.rows.length,13);
 console.log('PASS: quantity/rate multiplication, paise rounding, discount-before-tax, zero-priced work, ten services and invalid input boundaries.');
