@@ -97,3 +97,7 @@ Added **Short Film Background Score**, **Sound SFX**, and **Foley Recording** as
 ## Removed generic background-score service
 
 Removed the standalone **Background score** option from the form, pricing catalogue and invoice checklist. **Short Film Background Score** and **Background Score SFX** remain available as independent services. Twelve service options remain. Pricing inputs retain their original stable slot IDs, so saved quantities/rates for services after the removed option are not reassigned to other services.
+
+## Song making and commercial/audio-book music
+
+Added **Song Making / Tuning** and **Music For TV Ads Audio Books** as independent services, bringing the active catalogue to fourteen. All service labels use initial capitals for each word, retaining TV, MIDI and SFX as acronyms. Stable service/input IDs preserve saved pricing. New services use the same quantity-1 / blank-rate selection defaults and reset-on-uncheck behavior. The compact invoice table supports all fourteen selected lines on A4 while retaining 11 px value text.

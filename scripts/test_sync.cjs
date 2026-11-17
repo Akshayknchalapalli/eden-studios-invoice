@@ -34,12 +34,12 @@ function edit(id,value,event='input'){const el=elements.get(id);el.value=value;f
 assert.equal(elements.has('service_score'),false);assert.equal(elements.has('qty6'),false);assert.equal(latest.rows.length,0);
 assert.equal(elements.get('previewEmpty').hidden,false);assert.equal(elements.get('previewWrap').hidden,true);assert.equal(elements.get('downloadBtn').disabled,true);
 assert.equal(elements.get('serviceEmpty').hidden,false);
-for(const i of [1,2,3,4,5,7,8,9,10,11,12,13])assert.equal(elements.get('serviceLine'+i).hidden,true);
+for(const i of [1,2,3,4,5,7,8,9,10,11,12,13,14,15])assert.equal(elements.get('serviceLine'+i).hidden,true);
 function select(key,value){const el=elements.get('service_'+key);el.checked=value;el.listeners.change.forEach(fn=>fn());}
 edit('f_customer','Phone customer');assert.equal(latest.customer,'Phone customer');
 edit('f_address','Mobile company','change');assert.equal(latest.address,'Mobile company');
 edit('f_reference','Mobile reference','blur');assert.equal(latest.reference,'Mobile reference');
-select('music',true);assert.equal(elements.get('previewEmpty').hidden,true);assert.equal(elements.get('previewWrap').hidden,false);assert.equal(elements.get('downloadBtn').disabled,false);assert.equal(latest.rows.length,1);assert.equal(latest.rows[0].description,'Music composition');
+select('music',true);assert.equal(elements.get('previewEmpty').hidden,true);assert.equal(elements.get('previewWrap').hidden,false);assert.equal(elements.get('downloadBtn').disabled,false);assert.equal(latest.rows.length,1);assert.equal(latest.rows[0].description,'Music Composition');
 assert.equal(elements.get('serviceLine1').hidden,false);assert.equal(elements.get('serviceLine2').hidden,true);
 edit('desc1','Music session');edit('qty1','2');edit('rate1','8000');edit('f_discount','500');edit('f_taxrate','18');assert.equal(latest.grand,18290);assert.equal(latest.rows[0].description,'Music session');
 select('score_sfx',true);assert.equal(latest.rows.length,2);assert.equal(latest.checks.score_sfx,true);assert.equal(latest.rows[1].description,'Background Score SFX');
@@ -49,11 +49,11 @@ assert.equal(elements.get('qty1').value,'');assert.equal(elements.get('rate1').v
 select('music',true);assert.equal(elements.get('qty1').value,'1');assert.equal(elements.get('rate1').value,'');assert.equal(latest.grand,590);
 edit('rate1','8000');assert.equal(latest.grand,10030);
 edit('f_payment','UPI','change');assert.equal(latest.payment,'UPI');
-for(const [key,index,label] of [['short_film_score',11,'Short Film Background Score'],['sound_sfx',12,'Sound SFX'],['foley_recording',13,'Foley Recording']]){
+for(const [key,index,label] of [['short_film_score',11,'Short Film Background Score'],['sound_sfx',12,'Sound SFX'],['foley_recording',13,'Foley Recording'],['song_making',14,'Song Making / Tuning'],['tv_ads_audio_books',15,'Music For TV Ads Audio Books']]){
  select(key,true);edit('rate'+index,'100');assert.equal(latest.rows[latest.rows.length-1].description,label);assert.equal(latest.checks[key],true);select(key,false);assert.equal(elements.get('serviceLine'+index).hidden,true);
 }
 for(const el of [...elements.values()].filter(el=>el.dataset.check))select(el.dataset.check,true);
-assert.equal(latest.rows.length,12);assert.equal(elements.get('serviceEmpty').hidden,true);
+assert.equal(latest.rows.length,14);assert.equal(elements.get('serviceEmpty').hidden,true);
 for(const el of [...elements.values()].filter(el=>el.dataset.check))select(el.dataset.check,false);
 edit('f_discount','0');
 for(const el of [...elements.values()].filter(el=>el.dataset.check)){
@@ -73,8 +73,8 @@ function checkRestoredQuantity(quantity,expected){
  vm.runInContext(fs.readFileSync(path.join(root,'dist/invoice-math.js'),'utf8'),restored);
  vm.runInContext(source,restored);
  assert.equal(elements.get('qty7').value,expected);
- assert.equal(latest.rows[0].description,'Live instruments recording');
+ assert.equal(latest.rows[0].description,'Live Instruments Recording');
  assert.equal(latest.subtotal,Number(expected)*250);
 }
 checkRestoredQuantity('','1');checkRestoredQuantity('3','3');
-setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/twelve selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});
+setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/fourteen selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});

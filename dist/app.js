@@ -9,18 +9,20 @@ function displayDate(value){return value||'';}
 
 // Stable input slots preserve existing saved quantities/rates after service removal.
 const serviceDefinitions=[
- ['music', 'Music composition', 'e.g. Original song composition', 1],
- ['arrange', 'Track arrangements & Track Alignment', 'e.g. Arrangement and timing alignment for one song', 2],
- ['record', 'Recording / pitch correction', 'e.g. Vocal recording and tuning', 3],
- ['mix', 'Mixing & mastering', 'e.g. Stereo mix and master', 4],
- ['voice', 'Voice-over / dubbing', 'e.g. Voice-over for a promotional video', 5],
- ['live', 'Live instruments recording', 'e.g. Acoustic guitar recording', 7],
- ['plugins', 'Audio plugins / MIDI installation', 'e.g. MIDI setup and plugin installation', 8],
+ ['music', 'Music Composition', 'e.g. Original song composition', 1],
+ ['arrange', 'Track Arrangements & Track Alignment', 'e.g. Arrangement and timing alignment for one song', 2],
+ ['record', 'Recording / Pitch Correction', 'e.g. Vocal recording and tuning', 3],
+ ['mix', 'Mixing & Mastering', 'e.g. Stereo mix and master', 4],
+ ['voice', 'Voice-Over / Dubbing', 'e.g. Voice-over for a promotional video', 5],
+ ['live', 'Live Instruments Recording', 'e.g. Acoustic guitar recording', 7],
+ ['plugins', 'Audio Plugins / MIDI Installation', 'e.g. MIDI setup and plugin installation', 8],
  ['score_sfx', 'Background Score SFX', 'e.g. Sound design and effects', 9],
- ['voice_artist', 'Voice Dub / Voice over Artist', 'e.g. Voice artist session', 10],
+ ['voice_artist', 'Voice Dub / Voice Over Artist', 'e.g. Voice artist session', 10],
  ['short_film_score', 'Short Film Background Score', 'e.g. Original score for a short film', 11],
  ['sound_sfx', 'Sound SFX', 'e.g. Sound effects design and editing', 12],
- ['foley_recording', 'Foley Recording', 'e.g. Footsteps and prop Foley recording', 13]
+ ['foley_recording', 'Foley Recording', 'e.g. Footsteps and prop Foley recording', 13],
+ ['song_making', 'Song Making / Tuning', 'e.g. Original song writing and melody tuning', 14],
+ ['tv_ads_audio_books', 'Music For TV Ads Audio Books', 'e.g. Music for a TV advertisement or audio book', 15]
 ];
 serviceDefinitions.forEach((service,index)=>{
  const i=service[3],row=document.createElement('div');row.className='service-row';row.id='serviceLine'+i;row.hidden=true;

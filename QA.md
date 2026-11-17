@@ -1,3 +1,9 @@
+# Song making, TV/audio-book music and title case — 2026-11-17
+
+- Added two independent services and updated all fourteen catalogue labels in the checklist, pricing cards and invoice preview to initial capitals (TV/MIDI/SFX remain uppercase).
+- Retained stable pricing slots and reset/default behavior. Expanded invoice rows to fourteen; compact row heights keep the table above notes/totals at maximum selection.
+- Regression checks cover both new services, all-fourteen selection, deselection/reset and native invoice row mapping. Calculation, static layout, logo and fit checks pass. Physical browser/PDF layout verification remains pending.
+
 # Removed generic Background score — 2026-11-17
 
 - Removed only the generic Background score service from the form, pricing catalogue and invoice checklist. Short Film Background Score and Background Score SFX remain.

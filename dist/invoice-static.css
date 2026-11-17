@@ -33,8 +33,8 @@
 
 /* Selected services only; compact ten rows within the existing A4 table area. */
 #invoicePaper .invoice-table{height:auto}
-#invoicePaper .invoice-table.is-compact td{height:calc(var(--invoice-unit) * 16);padding:0}
-#invoicePaper .invoice-table.is-compact .invoice-cell-value{height:calc(var(--invoice-unit) * 15);font-size:calc(var(--invoice-unit) * 11)!important;line-height:calc(var(--invoice-unit) * 13);padding:0 calc(var(--invoice-unit) * 3);--invoice-value-size:calc(var(--invoice-unit) * 11)}
+#invoicePaper .invoice-table.is-compact td{height:calc(var(--invoice-unit) * 15);padding:0}
+#invoicePaper .invoice-table.is-compact .invoice-cell-value{height:calc(var(--invoice-unit) * 14);font-size:calc(var(--invoice-unit) * 11)!important;line-height:calc(var(--invoice-unit) * 12);padding:0 calc(var(--invoice-unit) * 3);--invoice-value-size:calc(var(--invoice-unit) * 11)}
 
 #invoicePaper .invoice-header{background:var(--invoice-navy)}
 
