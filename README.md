@@ -93,3 +93,7 @@ The workspace header displays only the supplied logo, without a repeated studio 
 ## Film, SFX and Foley services
 
 Added **Short Film Background Score**, **Sound SFX**, and **Foley Recording** as three independent options. Each has a service-specific pricing description hint, quantity/rate fields, preview checkbox and invoice line. Existing selections and pricing remain associated with their original service keys. The checklist and invoice support all thirteen services; selecting eleven or more uses a compact upper-header layout to provide table space while preserving the notes, totals, terms and footer positions.
+
+## Removed generic background-score service
+
+Removed the standalone **Background score** option from the form, pricing catalogue and invoice checklist. **Short Film Background Score** and **Background Score SFX** remain available as independent services. Twelve service options remain. Pricing inputs retain their original stable slot IDs, so saved quantities/rates for services after the removed option are not reassigned to other services.

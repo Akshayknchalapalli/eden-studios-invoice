@@ -7,23 +7,23 @@ const DRAFT_KEY='eden-invoice-v1';
 const today=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 function displayDate(value){return value||'';}
 
+// Stable input slots preserve existing saved quantities/rates after service removal.
 const serviceDefinitions=[
- ['music','Music composition','e.g. Original song composition'],
- ['arrange','Track arrangements & Track Alignment','e.g. Arrangement and timing alignment for one song'],
- ['record','Recording / pitch correction','e.g. Vocal recording and tuning'],
- ['mix','Mixing & mastering','e.g. Stereo mix and master'],
- ['voice','Voice-over / dubbing','e.g. Voice-over for a promotional video'],
- ['score','Background score','e.g. Background score for a short film'],
- ['live','Live instruments recording','e.g. Acoustic guitar recording'],
- ['plugins','Audio plugins / MIDI installation','e.g. MIDI setup and plugin installation'],
- ['score_sfx','Background Score SFX','e.g. Sound design and effects'],
- ['voice_artist','Voice Dub / Voice over Artist','e.g. Voice artist session'],
- ['short_film_score', 'Short Film Background Score', 'e.g. Original score for a short film'],
- ['sound_sfx', 'Sound SFX', 'e.g. Sound effects design and editing'],
- ['foley_recording', 'Foley Recording', 'e.g. Footsteps and prop Foley recording']
+ ['music', 'Music composition', 'e.g. Original song composition', 1],
+ ['arrange', 'Track arrangements & Track Alignment', 'e.g. Arrangement and timing alignment for one song', 2],
+ ['record', 'Recording / pitch correction', 'e.g. Vocal recording and tuning', 3],
+ ['mix', 'Mixing & mastering', 'e.g. Stereo mix and master', 4],
+ ['voice', 'Voice-over / dubbing', 'e.g. Voice-over for a promotional video', 5],
+ ['live', 'Live instruments recording', 'e.g. Acoustic guitar recording', 7],
+ ['plugins', 'Audio plugins / MIDI installation', 'e.g. MIDI setup and plugin installation', 8],
+ ['score_sfx', 'Background Score SFX', 'e.g. Sound design and effects', 9],
+ ['voice_artist', 'Voice Dub / Voice over Artist', 'e.g. Voice artist session', 10],
+ ['short_film_score', 'Short Film Background Score', 'e.g. Original score for a short film', 11],
+ ['sound_sfx', 'Sound SFX', 'e.g. Sound effects design and editing', 12],
+ ['foley_recording', 'Foley Recording', 'e.g. Footsteps and prop Foley recording', 13]
 ];
 serviceDefinitions.forEach((service,index)=>{
- const i=index+1,row=document.createElement('div');row.className='service-row';row.id='serviceLine'+i;row.hidden=true;
+ const i=service[3],row=document.createElement('div');row.className='service-row';row.id='serviceLine'+i;row.hidden=true;
  row.innerHTML=`<strong>${service[1]}</strong><div class="service-grid"><div><label for="desc${i}">Description / deliverable</label><input id="desc${i}" placeholder="${service[2]}"></div><div><label for="qty${i}">Quantity</label><input id="qty${i}" type="number" inputmode="decimal" min="0.01" step="0.01" value="1" placeholder="1"></div><div><label for="rate${i}">Rate per unit (₹)</label><input id="rate${i}" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Rate for ${service[1]}"></div></div><div class="small" id="amountLabel${i}">Amount: ₹0.00</div>`;
  $('serviceRows').append(row);
  $('desc'+i).value='';
@@ -32,7 +32,7 @@ const previousServiceChecks={};
 function selectedServiceLines(){
  const selected=[];
  serviceDefinitions.forEach((service,index)=>{
-  const i=index+1,checked=$('service_'+service[0]).checked;
+  const i=service[3],checked=$('service_'+service[0]).checked;
   const previous=previousServiceChecks[service[0]];
   if(!checked){
    $('qty'+i).value='';$('rate'+i).value='';
@@ -101,7 +101,8 @@ function restoreServiceDraft(draft){
  const oldLines=draft.values.filter(v=>/^(desc|qty|rate)\d+$/.test(v.id));
  draft.values=draft.values.filter(v=>!/^(desc|qty|rate)\d+$/.test(v.id));
  selectedKeys.forEach((key,index)=>{
-  const target=serviceDefinitions.findIndex(service=>service[0]===key)+1;
+  const definition=serviceDefinitions.find(service=>service[0]===key);
+  const target=definition?definition[3]:0;
   if(!target)return;
   ['desc','qty','rate'].forEach(field=>{const old=oldLines.find(v=>v.id===field+(index+1));if(old)draft.values.push({id:field+target,value:old.value});});
  });
@@ -117,7 +118,7 @@ function resizePreview(){
 }
 resizePreview();
 $('zoomIn').onclick=()=>{zoom=Math.min(3,zoom+.5);resizePreview();};$('zoomOut').onclick=()=>{zoom=Math.max(1,zoom-.5);resizePreview();};$('fitBtn').onclick=()=>{zoom=1;resizePreview();};
-$('clearBtn').onclick=()=>{if(!confirm('Start a new invoice? Download the current PDF first. This clears the draft on this device.'))return;clearTimeout(saveTimer);inputs.forEach(el=>{el.value='';if(el.type==='checkbox')el.checked=false;});serviceDefinitions.forEach((service,index)=>{$('desc'+(index+1)).value='';$('qty'+(index+1)).value='1';});$('f_date').value=today();$('f_discount').value='0';$('f_taxrate').value='0';zoom=1;cachedPdf=null;$('shareBtn').textContent='Share PDF';resizePreview();sync();saveDraft();$('exportStatus').textContent='';window.scrollTo({top:0,behavior:'smooth'});};
+$('clearBtn').onclick=()=>{if(!confirm('Start a new invoice? Download the current PDF first. This clears the draft on this device.'))return;clearTimeout(saveTimer);inputs.forEach(el=>{el.value='';if(el.type==='checkbox')el.checked=false;});serviceDefinitions.forEach((service,index)=>{$('desc'+service[3]).value='';$('qty'+service[3]).value='1';});$('f_date').value=today();$('f_discount').value='0';$('f_taxrate').value='0';zoom=1;cachedPdf=null;$('shareBtn').textContent='Share PDF';resizePreview();sync();saveDraft();$('exportStatus').textContent='';window.scrollTo({top:0,behavior:'smooth'});};
 function readyToExport(){if(!sync()){$('exportStatus').textContent=currentInvoice.rows.length?$('fitWarning').textContent:'Select at least one service in Step 2 to preview or export an invoice.';$('previewCard').scrollIntoView({behavior:'smooth'});return false;}return true;}
 // Render the live HTML element boxes and text to an export-only canvas. No invoice background image is used.
 async function makePdf(){

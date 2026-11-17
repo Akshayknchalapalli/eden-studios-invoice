@@ -31,10 +31,10 @@ vm.runInContext(fs.readFileSync(path.join(root,'dist/invoice-math.js'),'utf8'),c
 const source=process.argv[2]?fs.readFileSync(process.argv[2],'utf8'):fs.readFileSync(path.join(root,'dist/app.js'),'utf8');
 vm.runInContext(source,context);
 function edit(id,value,event='input'){const el=elements.get(id);el.value=value;for(const fn of el.listeners[event]||[])fn();}
-assert.equal(latest.rows.length,0);
+assert.equal(elements.has('service_score'),false);assert.equal(elements.has('qty6'),false);assert.equal(latest.rows.length,0);
 assert.equal(elements.get('previewEmpty').hidden,false);assert.equal(elements.get('previewWrap').hidden,true);assert.equal(elements.get('downloadBtn').disabled,true);
 assert.equal(elements.get('serviceEmpty').hidden,false);
-for(let i=1;i<=13;i++)assert.equal(elements.get('serviceLine'+i).hidden,true);
+for(const i of [1,2,3,4,5,7,8,9,10,11,12,13])assert.equal(elements.get('serviceLine'+i).hidden,true);
 function select(key,value){const el=elements.get('service_'+key);el.checked=value;el.listeners.change.forEach(fn=>fn());}
 edit('f_customer','Phone customer');assert.equal(latest.customer,'Phone customer');
 edit('f_address','Mobile company','change');assert.equal(latest.address,'Mobile company');
@@ -53,7 +53,7 @@ for(const [key,index,label] of [['short_film_score',11,'Short Film Background Sc
  select(key,true);edit('rate'+index,'100');assert.equal(latest.rows[latest.rows.length-1].description,label);assert.equal(latest.checks[key],true);select(key,false);assert.equal(elements.get('serviceLine'+index).hidden,true);
 }
 for(const el of [...elements.values()].filter(el=>el.dataset.check))select(el.dataset.check,true);
-assert.equal(latest.rows.length,13);assert.equal(elements.get('serviceEmpty').hidden,true);
+assert.equal(latest.rows.length,12);assert.equal(elements.get('serviceEmpty').hidden,true);
 for(const el of [...elements.values()].filter(el=>el.dataset.check))select(el.dataset.check,false);
 edit('f_discount','0');
 for(const el of [...elements.values()].filter(el=>el.dataset.check)){
@@ -68,7 +68,7 @@ assert.equal(elements.get('previewEmpty').hidden,false);assert.equal(elements.ge
 const legacy={version:1,values:[{id:'service_mix',checked:true,value:'on'},{id:'desc1',value:'Legacy mix'},{id:'qty1',value:'3'},{id:'rate1',value:'500'}]};context.restoreServiceDraft(legacy);assert.equal(legacy.values.find(v=>v.id==='desc4').value,'Legacy mix');assert.equal(legacy.values.find(v=>v.id==='qty4').value,'3');
 // Restored selected services default only missing quantities; valid custom values survive.
 function checkRestoredQuantity(quantity,expected){
- const draft={version:2,values:[{id:'service_live',checked:true,value:'on'},{id:'qty7',value:quantity},{id:'rate7',value:'250'},{id:'f_taxrate',value:'0'}]};
+ const draft={version:2,values:[{id:'service_score',checked:true,value:'on'},{id:'qty6',value:'9'},{id:'rate6',value:'9999'},{id:'service_live',checked:true,value:'on'},{id:'qty7',value:quantity},{id:'rate7',value:'250'},{id:'f_taxrate',value:'0'}]};
  const restored=vm.createContext({...sandbox,localStorage:{getItem:()=>JSON.stringify(draft),setItem(){}}});
  vm.runInContext(fs.readFileSync(path.join(root,'dist/invoice-math.js'),'utf8'),restored);
  vm.runInContext(source,restored);
@@ -77,4 +77,4 @@ function checkRestoredQuantity(quantity,expected){
  assert.equal(latest.subtotal,Number(expected)*250);
 }
 checkRestoredQuantity('','1');checkRestoredQuantity('3','3');
-setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/thirteen selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});
+setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/twelve selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});

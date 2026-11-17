@@ -1,3 +1,9 @@
+# Removed generic Background score — 2026-11-17
+
+- Removed only the generic Background score service from the form, pricing catalogue and invoice checklist. Short Film Background Score and Background Score SFX remain.
+- Preserved original pricing-slot IDs for all remaining services to avoid reassigning saved draft values after removal. Old removed-service fields are ignored when restoring.
+- Updated selection, invoice row and browser regression expectations for twelve services. Logic, calculation, logo and layout unit checks pass; physical browser verification remains pending.
+
 # Service names and quantity/rate reset — 2026-11-17
 
 - Renamed Track arrangements to Track arrangements & Track Alignment, and Live instruments to Live instruments recording, in the form, pricing metadata and invoice checklist.
