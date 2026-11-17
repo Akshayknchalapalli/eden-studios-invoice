@@ -9,12 +9,12 @@ function displayDate(value){return value||'';}
 
 const serviceDefinitions=[
  ['music','Music composition','e.g. Original song composition'],
- ['arrange','Track arrangements','e.g. Arrangement for one song'],
+ ['arrange','Track arrangements & Track Alignment','e.g. Arrangement and timing alignment for one song'],
  ['record','Recording / pitch correction','e.g. Vocal recording and tuning'],
  ['mix','Mixing & mastering','e.g. Stereo mix and master'],
  ['voice','Voice-over / dubbing','e.g. Voice-over for a promotional video'],
  ['score','Background score','e.g. Background score for a short film'],
- ['live','Live instruments','e.g. Acoustic guitar recording'],
+ ['live','Live instruments recording','e.g. Acoustic guitar recording'],
  ['plugins','Audio plugins / MIDI installation','e.g. MIDI setup and plugin installation'],
  ['score_sfx','Background Score SFX','e.g. Sound design and effects'],
  ['voice_artist','Voice Dub / Voice over Artist','e.g. Voice artist session'],
@@ -28,10 +28,22 @@ serviceDefinitions.forEach((service,index)=>{
  $('serviceRows').append(row);
  $('desc'+i).value='';
 });
+const previousServiceChecks={};
 function selectedServiceLines(){
  const selected=[];
  serviceDefinitions.forEach((service,index)=>{
   const i=index+1,checked=$('service_'+service[0]).checked;
+  const previous=previousServiceChecks[service[0]];
+  if(!checked){
+   $('qty'+i).value='';$('rate'+i).value='';
+   $('amountLabel'+i).textContent='Amount: '+inr(0);
+  }else if(previous===false){
+   $('qty'+i).value='1';$('rate'+i).value='';
+  }else if(previous===undefined&&$('qty'+i).value.trim()===''){
+   // A selected service restored from an older draft may have no quantity.
+   $('qty'+i).value='1';
+  }
+  previousServiceChecks[service[0]]=checked;
   $('serviceLine'+i).hidden=!checked;
   ['desc','qty','rate'].forEach(field=>{$(field+i).disabled=!checked;});
   if(checked)selected.push({key:service[0],label:service[1],index:i,description:$('desc'+i).value.trim()||service[1],quantity:$('qty'+i).value,rate:$('rate'+i).value});

@@ -51,4 +51,6 @@
 #invoicePaper.has-many-services .invoice-reference{top:calc(var(--invoice-unit) * 531)}
 #invoicePaper.has-many-services .invoice-table{top:calc(var(--invoice-unit) * 576)}
 
+#invoicePaper .invoice-choice-long{font-size:calc(var(--invoice-unit) * 8.2)!important}
+
 }

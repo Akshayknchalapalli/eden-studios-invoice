@@ -58,7 +58,7 @@ The GitHub Actions workflow runs these checks and retains screenshots, PDFs and 
 
 ## Selected-service pricing
 
-Step 3 shows exactly one pricing card per checked service from Step 2, and an empty-state message when none are selected. Each card names the service and has its own description and rate placeholders. Description is optional: the service name appears on the invoice if it is left blank. Quantity starts at 1. A rate is required; zero is accepted for complimentary work. Unchecking excludes the line and its charge while retaining its entries for reselection. New invoice clears all retained entries.
+Step 3 shows exactly one pricing card per checked service from Step 2, and an empty-state message when none are selected. Each card names the service and has its own description and rate placeholders. Description is optional: the service name appears on the invoice if it is left blank. Quantity starts at 1. A rate is required; zero is accepted for complimentary work. Unchecking removes the line and its charge and clears quantity/rate. Reselecting starts with quantity 1 and a blank rate. New invoice clears all retained entries.
 
 The preview/PDF includes only selected services, in checklist order. Seven to ten lines use a compact table within the existing A4 area. Drafts and editable copies preserve the service-to-line association (snapshot version 2); older version-1 lines are matched to checked services in order.
 

@@ -37,3 +37,5 @@
 #invoicePaper.has-many-services .invoice-payment{top:533px}
 #invoicePaper.has-many-services .invoice-reference{top:531px}
 #invoicePaper.has-many-services .invoice-table{top:576px}
+
+#invoicePaper .invoice-choice-long{font-size:8.2px}

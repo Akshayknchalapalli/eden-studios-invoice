@@ -45,7 +45,9 @@ edit('desc1','Music session');edit('qty1','2');edit('rate1','8000');edit('f_disc
 select('score_sfx',true);assert.equal(latest.rows.length,2);assert.equal(latest.checks.score_sfx,true);assert.equal(latest.rows[1].description,'Background Score SFX');
 edit('rate9','1000');assert.equal(latest.grand,19470);
 select('music',false);assert.equal(latest.rows.length,1);assert.equal(latest.rows[0].description,'Background Score SFX');assert.equal(latest.grand,590);
-select('music',true);assert.equal(latest.grand,19470);assert.equal(elements.get('rate1').value,'8000');
+assert.equal(elements.get('qty1').value,'');assert.equal(elements.get('rate1').value,'');assert.equal(elements.get('amountLabel1').textContent,'Amount: ₹0.00');
+select('music',true);assert.equal(elements.get('qty1').value,'1');assert.equal(elements.get('rate1').value,'');assert.equal(latest.grand,590);
+edit('rate1','8000');assert.equal(latest.grand,10030);
 edit('f_payment','UPI','change');assert.equal(latest.payment,'UPI');
 for(const [key,index,label] of [['short_film_score',11,'Short Film Background Score'],['sound_sfx',12,'Sound SFX'],['foley_recording',13,'Foley Recording']]){
  select(key,true);edit('rate'+index,'100');assert.equal(latest.rows[latest.rows.length-1].description,label);assert.equal(latest.checks[key],true);select(key,false);assert.equal(elements.get('serviceLine'+index).hidden,true);
@@ -53,6 +55,26 @@ for(const [key,index,label] of [['short_film_score',11,'Short Film Background Sc
 for(const el of [...elements.values()].filter(el=>el.dataset.check))select(el.dataset.check,true);
 assert.equal(latest.rows.length,13);assert.equal(elements.get('serviceEmpty').hidden,true);
 for(const el of [...elements.values()].filter(el=>el.dataset.check))select(el.dataset.check,false);
-edit('f_discount','0');assert.equal(elements.get('previewEmpty').hidden,false);assert.equal(elements.get('previewWrap').hidden,true);assert.equal(elements.get('downloadBtn').disabled,true);assert.equal(latest.rows.length,0);assert.equal(latest.grand,0);assert.equal(elements.get('serviceEmpty').hidden,false);
+edit('f_discount','0');
+for(const el of [...elements.values()].filter(el=>el.dataset.check)){
+ const key=el.dataset.check;select(key,true);
+ const active=[...elements.values()].find(row=>row.id&&/^serviceLine\d+$/.test(row.id)&&!row.hidden);const i=active.id.replace('serviceLine','');
+ assert.equal(elements.get('qty'+i).value,'1',key);assert.equal(elements.get('rate'+i).value,'',key);
+ edit('qty'+i,'4');edit('rate'+i,'125');assert.equal(latest.subtotal,500,key);
+ select(key,false);assert.equal(elements.get('qty'+i).value,'',key);assert.equal(elements.get('rate'+i).value,'',key);assert.equal(latest.subtotal,0,key);
+ select(key,true);assert.equal(elements.get('qty'+i).value,'1',key);assert.equal(elements.get('rate'+i).value,'',key);select(key,false);
+}
+assert.equal(elements.get('previewEmpty').hidden,false);assert.equal(elements.get('previewWrap').hidden,true);assert.equal(elements.get('downloadBtn').disabled,true);assert.equal(latest.rows.length,0);assert.equal(latest.grand,0);assert.equal(elements.get('serviceEmpty').hidden,false);
 const legacy={version:1,values:[{id:'service_mix',checked:true,value:'on'},{id:'desc1',value:'Legacy mix'},{id:'qty1',value:'3'},{id:'rate1',value:'500'}]};context.restoreServiceDraft(legacy);assert.equal(legacy.values.find(v=>v.id==='desc4').value,'Legacy mix');assert.equal(legacy.values.find(v=>v.id==='qty4').value,'3');
-setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/thirteen selected service lines, retained edits, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});
+// Restored selected services default only missing quantities; valid custom values survive.
+function checkRestoredQuantity(quantity,expected){
+ const draft={version:2,values:[{id:'service_live',checked:true,value:'on'},{id:'qty7',value:quantity},{id:'rate7',value:'250'},{id:'f_taxrate',value:'0'}]};
+ const restored=vm.createContext({...sandbox,localStorage:{getItem:()=>JSON.stringify(draft),setItem(){}}});
+ vm.runInContext(fs.readFileSync(path.join(root,'dist/invoice-math.js'),'utf8'),restored);
+ vm.runInContext(source,restored);
+ assert.equal(elements.get('qty7').value,expected);
+ assert.equal(latest.rows[0].description,'Live instruments recording');
+ assert.equal(latest.subtotal,Number(expected)*250);
+}
+checkRestoredQuantity('','1');checkRestoredQuantity('3','3');
+setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/thirteen selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});

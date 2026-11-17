@@ -1,3 +1,10 @@
+# Service names and quantity/rate reset — 2026-11-17
+
+- Renamed Track arrangements to Track arrangements & Track Alignment, and Live instruments to Live instruments recording, in the form, pricing metadata and invoice checklist.
+- Unchecked services now clear their quantity, rate and amount label, including stale values in restored unselected services. A new selection/reselection starts at quantity 1 and a blank rate. Custom quantities on a continuously selected service are preserved.
+- Selected older draft lines with blank quantity default to 1 at initialization. Blank/invalid quantities entered while editing still trigger validation instead of being silently replaced.
+- Regression checks exercise all thirteen service toggle/reset cycles and confirm removed charges leave totals immediately. Existing calculation and layout checks pass. Physical browser verification remains pending.
+
 # Film score, Sound SFX and Foley — 2026-11-17
 
 - Added three independent service keys for Short Film Background Score, Sound SFX and Foley Recording; pricing inputs and preview checks use the same keys.
