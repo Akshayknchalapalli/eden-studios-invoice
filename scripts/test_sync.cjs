@@ -42,6 +42,11 @@ edit('f_reference','Mobile reference','blur');assert.equal(latest.reference,'Mob
 select('music',true);assert.equal(elements.get('previewEmpty').hidden,true);assert.equal(elements.get('previewWrap').hidden,false);assert.equal(elements.get('downloadBtn').disabled,false);assert.equal(latest.rows.length,1);assert.equal(latest.rows[0].description,'Music Composition');
 assert.equal(elements.get('serviceLine1').hidden,false);assert.equal(elements.get('serviceLine2').hidden,true);
 edit('desc1','Music session');edit('qty1','2');edit('rate1','8000');edit('f_discount','500');edit('f_taxrate','18');assert.equal(latest.grand,18290);assert.equal(latest.rows[0].description,'Music session');
+vm.runInContext('cachedPdf={name:"old.pdf"}',context);
+edit('f_advance','5000');assert.equal(latest.grand,18290);assert.equal(latest.advance,5000);assert.equal(latest.balance,13290);assert.equal(elements.get('sum_balance').value,'₹13,290.00');assert.equal(elements.get('mobileTotal').textContent,'₹13,290.00');assert.equal(vm.runInContext('cachedPdf',context),null);
+edit('f_advance','20000');assert.equal(vm.runInContext('readyToExport()',context),false);assert.ok(elements.get('fitWarning').textContent.includes('Advance payment cannot exceed'));
+edit('f_advance','0');
+
 select('score_sfx',true);assert.equal(latest.rows.length,2);assert.equal(latest.checks.score_sfx,true);assert.equal(latest.rows[1].description,'Background Score SFX');
 edit('rate9','1000');assert.equal(latest.grand,19470);
 select('music',false);assert.equal(latest.rows.length,1);assert.equal(latest.rows[0].description,'Background Score SFX');assert.equal(latest.grand,590);
@@ -68,13 +73,14 @@ assert.equal(elements.get('previewEmpty').hidden,false);assert.equal(elements.ge
 const legacy={version:1,values:[{id:'service_mix',checked:true,value:'on'},{id:'desc1',value:'Legacy mix'},{id:'qty1',value:'3'},{id:'rate1',value:'500'}]};context.restoreServiceDraft(legacy);assert.equal(legacy.values.find(v=>v.id==='desc4').value,'Legacy mix');assert.equal(legacy.values.find(v=>v.id==='qty4').value,'3');
 // Restored selected services default only missing quantities; valid custom values survive.
 function checkRestoredQuantity(quantity,expected){
- const draft={version:2,values:[{id:'service_score',checked:true,value:'on'},{id:'qty6',value:'9'},{id:'rate6',value:'9999'},{id:'service_live',checked:true,value:'on'},{id:'qty7',value:quantity},{id:'rate7',value:'250'},{id:'f_taxrate',value:'0'}]};
+ const draft={version:2,values:[{id:'service_score',checked:true,value:'on'},{id:'qty6',value:'9'},{id:'rate6',value:'9999'},{id:'service_live',checked:true,value:'on'},{id:'qty7',value:quantity},{id:'rate7',value:'250'},{id:'f_taxrate',value:'0'},{id:'f_advance',value:'25'}]};
  const restored=vm.createContext({...sandbox,localStorage:{getItem:()=>JSON.stringify(draft),setItem(){}}});
  vm.runInContext(fs.readFileSync(path.join(root,'dist/invoice-math.js'),'utf8'),restored);
  vm.runInContext(source,restored);
  assert.equal(elements.get('qty7').value,expected);
  assert.equal(latest.rows[0].description,'Live Instruments Recording');
- assert.equal(latest.subtotal,Number(expected)*250);
+ assert.equal(latest.subtotal,Number(expected)*250);assert.equal(latest.advance,25);assert.equal(latest.balance,Number(expected)*250-25);
+ restored.confirm=()=>true;elements.get('clearBtn').onclick();assert.equal(elements.get('f_advance').value,'0');assert.equal(latest.advance,0);assert.equal(latest.balance,0);
 }
 checkRestoredQuantity('','1');checkRestoredQuantity('3','3');
-setImmediate(()=>{assert.equal(latest.customer,'Phone customer');console.log('PASS: zero/one/fourteen selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});
+setImmediate(()=>{assert.equal(latest.customer,'');console.log('PASS: zero/one/fourteen selected service lines, cleared quantities/rates, default quantity 1 on reselection, removed amounts, blur/change events and totals without Object.fromEntries, font/image APIs, sharing or localStorage.');});

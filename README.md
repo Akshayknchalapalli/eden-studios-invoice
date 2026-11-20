@@ -101,3 +101,7 @@ Removed the standalone **Background score** option from the form, pricing catalo
 ## Song making and commercial/audio-book music
 
 Added **Song Making / Tuning** and **Music For TV Ads Audio Books** as independent services, bringing the active catalogue to fourteen. All service labels use initial capitals for each word, retaining TV, MIDI and SFX as acronyms. Stable service/input IDs preserve saved pricing. New services use the same quantity-1 / blank-rate selection defaults and reset-on-uncheck behavior. The compact invoice table supports all fourteen selected lines on A4 while retaining 11 px value text.
+
+## Advance payment and balance due
+
+Step 4 includes **Advance Payment (₹)** above Subtotal. The invoice summary also lists advance paid above Subtotal and retains the full invoice total separately from the highlighted balance due. Balance due = invoice total − advance paid. Service subtotal, discount and GST calculations are unaffected by payments already collected. Blank advance means zero. Negative amounts, more than two decimal places and advances above the invoice total block export with an explanation. Drafts and editable copies preserve the advance input; New invoice resets it to zero. The mobile action bar shows balance due.

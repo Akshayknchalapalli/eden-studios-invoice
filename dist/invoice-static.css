@@ -53,4 +53,14 @@
 
 #invoicePaper .invoice-choice-long{font-size:calc(var(--invoice-unit) * 8.2)!important}
 
+/* Six payment-summary rows fit above the existing footer on one A4 page. */
+#invoicePaper .invoice-totals>div{height:calc(var(--invoice-unit) * 20)}
+#invoicePaper .invoice-totals dd{height:calc(var(--invoice-unit) * 19);line-height:calc(var(--invoice-unit) * 15);padding:calc(var(--invoice-unit) * 1) calc(var(--invoice-unit) * 4);--invoice-value-size:calc(var(--invoice-unit) * 12)}
+#invoicePaper .invoice-total dd{font-weight:700}
+#invoicePaper .invoice-totals>.invoice-grand{height:calc(var(--invoice-unit) * 30)}
+#invoicePaper .invoice-totals .invoice-grand dd{height:calc(var(--invoice-unit) * 28);font-size:calc(var(--invoice-unit) * 17.5)!important;line-height:calc(var(--invoice-unit) * 22);padding:calc(var(--invoice-unit) * 1) calc(var(--invoice-unit) * 4);--invoice-value-size:calc(var(--invoice-unit) * 17.5)}
+#invoicePaper .invoice-conditions{top:calc(var(--invoice-unit) * 955);height:calc(var(--invoice-unit) * 86);padding-top:calc(var(--invoice-unit) * 5)}
+#invoicePaper .invoice-conditions h3{font-size:calc(var(--invoice-unit) * 9)!important;padding:calc(var(--invoice-unit) * 2) calc(var(--invoice-unit) * 9)}
+#invoicePaper .invoice-conditions ol{margin:calc(var(--invoice-unit) * 4) 0 0;font-size:calc(var(--invoice-unit) * 9)!important;line-height:calc(var(--invoice-unit) * 10)}
+
 }

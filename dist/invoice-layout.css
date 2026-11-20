@@ -39,3 +39,13 @@
 #invoicePaper.has-many-services .invoice-table{top:576px}
 
 #invoicePaper .invoice-choice-long{font-size:8.2px}
+
+/* Six payment-summary rows fit above the existing footer on one A4 page. */
+#invoicePaper .invoice-totals>div{height:20px}
+#invoicePaper .invoice-totals dd{height:19px;line-height:15px;padding:1px 4px;--invoice-value-size:12px}
+#invoicePaper .invoice-total dd{font-weight:700}
+#invoicePaper .invoice-totals>.invoice-grand{height:30px}
+#invoicePaper .invoice-totals .invoice-grand dd{height:28px;font-size:17.5px;line-height:22px;padding:1px 4px;--invoice-value-size:17.5px}
+#invoicePaper .invoice-conditions{top:955px;height:86px;padding-top:5px}
+#invoicePaper .invoice-conditions h3{font-size:9px;padding:2px 9px}
+#invoicePaper .invoice-conditions ol{margin:4px 0 0;font-size:9px;line-height:10px}

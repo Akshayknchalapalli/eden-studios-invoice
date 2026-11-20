@@ -1,3 +1,9 @@
+# Advance payment and balance due — 2026-11-20
+
+- Added Advance Payment above Subtotal in Step 4 and the invoice payment summary. Invoice total remains the full charge; the highlighted Balance Due and mobile summary deduct advance after discount/GST calculations.
+- Advance uses the existing integer-hundredths parser. Empty/zero, partial, exact, excessive, negative and over-precision values have dedicated calculation checks. Excessive/invalid advance blocks export instead of producing a negative balance.
+- Advance is included in draft/editable-copy state and PDF text mapping; New invoice resets it. Unit checks cover preview total mapping, draft restoration and stale PDF invalidation. Local Chromium launch is unavailable in this environment, so full browser/PDF rendering verification remains pending. Payment-summary/terms spacing was adjusted to retain the existing A4 footer position.
+
 # Song making, TV/audio-book music and title case — 2026-11-17
 
 - Added two independent services and updated all fourteen catalogue labels in the checklist, pricing cards and invoice preview to initial capitals (TV/MIDI/SFX remain uppercase).

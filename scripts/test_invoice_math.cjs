@@ -10,4 +10,11 @@ for(const [d,t] of [['101','18'],['-1','18'],['0','101'],['0','-1'],['1.234','18
 result=calc([line('1','100')],'100','18');assert.equal(result.grand,0);assert.equal(result.tax,0);
 result=calc(Array.from({length:10},()=>line('1','100')),'100','18');assert.equal(result.grand,1062);assert.equal(result.rows.length,10);
 result=calc(Array.from({length:13},()=>line('1','100')),'100','18');assert.equal(result.grand,1416);assert.equal(result.rows.length,13);
-console.log('PASS: quantity/rate multiplication, paise rounding, discount-before-tax, zero-priced work, ten services and invalid input boundaries.');
+// Advance is a payment against the final charge, not a discount/tax reduction.
+for(const advance of [undefined,'','0']){result=calc([line('2','8000')],'500','18',advance);assert.equal(result.advance,0);assert.equal(result.balance,18290);assert.deepEqual(result.errors,[]);}
+result=calc([line('2','8000')],'500','18','5000');assert.equal(result.grand,18290);assert.equal(result.tax,2790);assert.equal(result.advance,5000);assert.equal(result.balance,13290);assert.deepEqual(result.errors,[]);
+result=calc([line('2','8000')],'500','18','18290');assert.equal(result.balance,0);assert.deepEqual(result.errors,[]);
+result=calc([line('1','.10')],'0','18','.01');assert.equal(result.grand,.12);assert.equal(result.balance,.11);
+for(const advance of ['-1','1.001','20000','Infinity','NaN','1e3','999999999999999999999999']){result=calc([line('2','8000')],'500','18',advance);assert.ok(result.errors.length,advance);assert.ok(Number.isFinite(result.balance));assert.ok(result.balance>=0);}
+result=calc([],'0','0','1');assert.ok(result.errors.includes('Advance payment cannot exceed the invoice total.'));assert.equal(result.balance,0);
+console.log('PASS: quantity/rate multiplication, paise rounding, discount-before-tax, zero-priced work, multiple services, advance payments/balance due and invalid input boundaries.');

@@ -6,7 +6,7 @@ function invoiceHundredths(value){
  const parts=text.split('.'),result=Number(parts[0]||0)*100+Number(((parts[1]||'')+'00').slice(0,2));
  return Number.isSafeInteger(result)?result:null;
 }
-function calculateInvoiceAmounts(lines,discountValue,taxValue){
+function calculateInvoiceAmounts(lines,discountValue,taxValue,advanceValue){
  const errors=[];let subtotalMinor=0;
  const rows=lines.map(line=>{
   const quantity=invoiceHundredths(line.quantity),rate=invoiceHundredths(line.rate);
@@ -33,6 +33,10 @@ function calculateInvoiceAmounts(lines,discountValue,taxValue){
  if(!Number.isSafeInteger(taxProduct))errors.push('The taxable amount is too large.');else taxMinor=Math.round(taxProduct/10000);
  const grandMinor=taxableMinor+taxMinor;
  if(!Number.isSafeInteger(grandMinor))errors.push('The invoice total is too large.');
- return {rows,subtotal:subtotalMinor/100,discount:discountMinor/100,taxable:taxableMinor/100,taxRate:taxBasisPoints/100,tax:taxMinor/100,grand:grandMinor/100,errors};
+ let advanceMinor=invoiceHundredths(advanceValue==null||advanceValue===''?'0':advanceValue);
+ if(advanceMinor===null){errors.push('Enter a non-negative advance payment with at most 2 decimal places.');advanceMinor=0;}
+ if(advanceMinor>grandMinor)errors.push('Advance payment cannot exceed the invoice total.');
+ const balanceMinor=Math.max(0,grandMinor-advanceMinor);
+ return {advance:advanceMinor/100,balance:balanceMinor/100,rows,subtotal:subtotalMinor/100,discount:discountMinor/100,taxable:taxableMinor/100,taxRate:taxBasisPoints/100,tax:taxMinor/100,grand:grandMinor/100,errors};
 }
 if(typeof module!=='undefined'&&module.exports)module.exports={invoiceHundredths,calculateInvoiceAmounts};
